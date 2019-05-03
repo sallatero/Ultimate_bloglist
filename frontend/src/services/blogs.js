@@ -19,7 +19,7 @@ const update = async (id, newVersion) => {
       headers: { Authorization: token },
     }
     const response = await axios.put(`${baseUrl}/${id}`, newVersion, config)
-    return response
+    return response.data
   }catch (error) {
     console.log('error: ', error)
     if (error.response) {
@@ -44,7 +44,6 @@ const remove = async (id) => {
   }
 }
 
-//data: title, author, url, likes, token
 const create = async newObj => {
   try {
     console.log('create kutsuttu. newobj: ', newObj)

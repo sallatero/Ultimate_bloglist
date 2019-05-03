@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { likeBlog, deleteBlog } from '../reducers/blogReducer'
+import { setMessage } from '../reducers/notificationReducer'
 
-const Blog = ({ blog, addLike, deleteBlog, username }) => {
+const Blog = (props) => {
   const [showAll, setShowAll] = useState(false)
-  //console.log('BLOG Props: ', blog)
+  console.log('BLOG Props: ', props.blog)
   let deletable = true
-  if (blog.user) {
-    deletable = blog.user.username === username
+  if (props.blog.user) {
+    deletable = props.blog.user.username === props.username
   }
 
   const blogStyle = {
@@ -14,6 +17,15 @@ const Blog = ({ blog, addLike, deleteBlog, username }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+
+  const addLike = (blog) => {
+    props.likeBlog(blog)
+    props.setMessage(`You liked blog ${blog.title}`, 5000)
+  }
+  const deleteBlog = (blog) => {
+    props.deleteBlog(blog.id)
+    props.setMessage(`Removed blog ${blog.title}`, 5000)
   }
 
   //showAllInfo: näytetään kun blogi on "avattu"
@@ -28,18 +40,29 @@ const Blog = ({ blog, addLike, deleteBlog, username }) => {
   return (
     <div style={blogStyle} className='blog'>
       <div onClick={toggleShowAll} className='defaultBlogView'>
-        {blog.title} {blog.author}
+        {props.blog.title} {props.blog.author}
       </div>
       <div style={showAllInfo} className='showAllBlogView'>
-        <p>{blog.url}</p>
-        <p>{blog.likes} likes <button onClick={() => addLike(blog.id)}>like</button></p>
-        <p>added by {blog.user ? blog.user.name : ''}</p>
+        <p>{props.blog.url}</p>
+        <p>{props.blog.likes} likes <button onClick={() => addLike(props.blog)}>like</button></p>
+        <p>added by {props.blog.user ? props.blog.user.name : ''}</p>
         <div style={ableToDelete}>
-          <p><button onClick={() => deleteBlog(blog.id)}>delete</button></p>
+          <p><button onClick={() => deleteBlog(props.blog)}>delete</button></p>
         </div>
       </div>
     </div>
   )
 }
+/*
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    blogsToShow: blogsToShow(state)
+  }
+}*/
 
-export default Blog
+const mapDispatchToProps = {
+  likeBlog, deleteBlog,
+  setMessage
+}
+export default connect(null, mapDispatchToProps)(Blog)

@@ -10,6 +10,12 @@ export const useField = (type) => {
     setValue('')
   }
 
+  return [{
+    type,
+    value,
+    onChange
+  }, reset]
+/*
   return {
     att: {
       type,
@@ -18,4 +24,5 @@ export const useField = (type) => {
     },
     reset
   }
+  */
 }

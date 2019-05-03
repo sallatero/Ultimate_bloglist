@@ -116,7 +116,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
     }
     const newVersion = await Blog.findByIdAndUpdate(request.params.id, putThis, { new: true })
     if (newVersion) {
-      response.status(204).json(newVersion.toJSON())
+      response.status(200).json(newVersion.toJSON())
     } else {
       response.status(404).end()
     }
