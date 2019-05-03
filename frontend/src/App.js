@@ -7,12 +7,14 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LogoutButton from './components/LogoutButton'
 import Togglable from './components/Togglable'
+import { setMessage } from './reducers/notificationReducer'
+import { connect } from 'react-redux'
 
-const App = () => {
+const App = (props) => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [message, setMessage] = useState('')
-  const [err, setErr] = useState(false)
+  //const [message, setMessage] = useState('')
+  //const [err, setErr] = useState(false)
 
   //Haetaan kannasta blogit
   useEffect(() => {
@@ -31,12 +33,9 @@ const App = () => {
     }
   }, [])
 
-  const addMessage = (message, err) => {
-    setErr(err)
-    setMessage(message)
-    setTimeout(() => {
-      setMessage('')
-    }, 3000)
+  const addMessage = (message) => {
+    console.log('App addMessage')
+    props.setMessage(message, 5000)
   }
 
   const handleLogin = async (event) => {
@@ -48,21 +47,21 @@ const App = () => {
         username: event.target[0].value, password: event.target[1].value
       })
       if (response.errorTitle && response.statusCode) { //Authentication problem
-        addMessage(`Kirjautuminen ei onnistunut: ${response.errorTitle}`, true)
+        addMessage(`Kirjautuminen ei onnistunut: ${response.errorTitle}`)
         return
       } else {
         const user = response
         setUser(user)
-        addMessage('Kirjautuminen onnistui', false)
+        addMessage('Kirjautuminen onnistui')
 
         window.localStorage.setItem(
           'loggedBlogappUser', JSON.stringify(user)
         )
         blogService.setToken(user.token)
-        addMessage(`Tervetuloa ${user.name}`, false)
+        addMessage(`Tervetuloa ${user.name}`)
       }
     } catch(exception) {
-      addMessage('kirjautuminen epäonnistui', true)
+      addMessage('kirjautuminen epäonnistui')
     }
   }
 
@@ -94,9 +93,9 @@ const App = () => {
       window.localStorage.clear()
       blogService.setToken(null)
       setUser(null)
-      addMessage('Hei hei!', false)
+      addMessage('Hei hei!')
     } catch(exception) {
-      addMessage('uloskirjaus ei onnistunut', true)
+      addMessage('uloskirjaus ei onnistunut')
     }
   }
 
@@ -106,9 +105,9 @@ const App = () => {
     try {
       await blogService.update(id, newVersion)
       setBlogs(blogs.map(b => b.id !== id ? b : newVersion))
-      addMessage('blogin likettäminen onnistui', false)
+      addMessage('blogin likettäminen onnistui')
     }catch (exception) {
-      addMessage('Blogin likettäminen ei onnistunut', true)
+      addMessage('Blogin likettäminen ei onnistunut')
     }
   }
 
@@ -131,19 +130,19 @@ const App = () => {
             window.localStorage.clear()
             blogService.setToken(null)
             setUser(null)
-            addMessage('Kirjaudu sisään uudelleen!', false)
+            addMessage('Kirjaudu sisään uudelleen!')
           } catch(exception) {
-            addMessage('uloskirjaus ei onnistunut', true)
+            addMessage('uloskirjaus ei onnistunut')
           }
         }
-        addMessage(`blogin lisääminen ei onnistunut: ${response.errorTitle}`, true)
+        addMessage(`blogin lisääminen ei onnistunut: ${response.errorTitle}`)
       } else {
         setBlogs(blogs.concat(response))
-        addMessage('blogin lisääminen onnistui', false)
+        addMessage('blogin lisääminen onnistui')
       }
     } catch(exception) {
       //Jos käyttäjän token on vanhentunut
-      addMessage('Istuntosi on vanhentunut. Kirjaudu uudelleen sisään.', true)
+      addMessage('Istuntosi on vanhentunut. Kirjaudu uudelleen sisään.')
       window.localStorage.clear()
       blogService.setToken(null)
       setUser(null)
@@ -154,7 +153,7 @@ const App = () => {
     try {
       const blog = blogs.find(b => b.id === id)
       if (!blog) {
-        addMessage('Blogia ei löytynyt', true)
+        addMessage('Blogia ei löytynyt')
       }
       window.confirm(`Haluatko varmasti poistaa blogin ${blog.title}?`)
       await blogService.remove(id)
@@ -162,11 +161,11 @@ const App = () => {
         return b.id !== id
       })
       setBlogs(filtered)
-      addMessage('blogin poisto onnistui', false)
+      addMessage('blogin poisto onnistui')
     } catch (exception) {
       console.log('exception: ', exception)
       //Jos käyttäjän token on vanhentunut
-      addMessage('Istuntosi on vanhentunut. Kirjaudu uudelleen sisään.', true)
+      addMessage('Istuntosi on vanhentunut. Kirjaudu uudelleen sisään.')
       window.localStorage.clear()
       blogService.setToken(null)
       setUser(null)
@@ -198,7 +197,7 @@ const App = () => {
   return (
     <div className='app'>
       <h1>Blogilista-sovellus</h1>
-      <Notification message={message} err={err}/>
+      <Notification />
 
       {user === null ?
         <div>{loginform()}</div> :
@@ -216,4 +215,8 @@ const App = () => {
   )
 }
 
-export default App
+const mapDispatchToProps = {
+  setMessage
+}
+
+export default connect(null, mapDispatchToProps)(App)
