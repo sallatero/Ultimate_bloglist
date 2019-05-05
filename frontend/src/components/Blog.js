@@ -5,7 +5,6 @@ import { setMessage } from '../reducers/notificationReducer'
 
 const Blog = (props) => {
   const [showAll, setShowAll] = useState(false)
-  console.log('BLOG Props: ', props.blog)
   let deletable = true
   if (props.blog.user) {
     deletable = props.blog.user.username === props.username
@@ -21,6 +20,7 @@ const Blog = (props) => {
 
   const addLike = (blog) => {
     props.likeBlog(blog)
+    //ei saa antaa viestiä jos ei onnistunut
     props.setMessage(`You liked blog ${blog.title}`, 5000)
   }
   const deleteBlog = (blog) => {

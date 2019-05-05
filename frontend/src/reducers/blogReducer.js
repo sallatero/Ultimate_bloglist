@@ -40,15 +40,19 @@ export const likeBlog = (blog) => {
     //blogs.find(b => b.id === id)
     try {
       const modifiedBlog = await blogService.update(blog.id, obj)
-      //{ ...oldVersion, likes: oldVersion.likes + 1 }
+      //errorTitle: "expired token", statusCode: 401
+      //ei saa dispatchata jos error
+      if (modifiedBlog === 401) {
+        setMessage('Unauthorized action.', 5000)
+        //Miten ohjaa loginiin
+      }
       dispatch({
         type: 'LIKE',
         data: modifiedBlog
       })
       //setBlogs(blogs.map(b => b.id !== id ? b : newVersion))
     }catch (exception) {
-      console.log('EXCEPTION: Blogin likettäminen ei onnistunut')
-      setMessage('Blogin likettäminen ei onnistunut', 5000)
+      console.log('EXCEPTION: likettäminen ei onnistunut, ', exception)
     }
   }
 }

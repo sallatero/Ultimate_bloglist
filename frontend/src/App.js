@@ -44,18 +44,23 @@ const App = (props) => {
       const response = await loginService.login({
         username: event.target[0].value, password: event.target[1].value
       })
+      console.log('response handleLoginissa: ', response)
       if (response.errorTitle && response.statusCode) { //Authentication problem
         addMessage(`Kirjautuminen ei onnistunut: ${response.errorTitle}`)
+        console.log('Kirjautuminen ei onnistunut')
         return
       } else {
         const user = response
         setUser(user)
+        console.log('setUser: ', user)
         addMessage('Kirjautuminen onnistui')
 
         window.localStorage.setItem(
           'loggedBlogappUser', JSON.stringify(user)
         )
+        console.log('blogServiceen: ')
         blogService.setToken(user.token)
+        console.log('after setToken')
         addMessage(`Tervetuloa ${user.name}`)
       }
     } catch(exception) {

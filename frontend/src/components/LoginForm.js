@@ -3,16 +3,16 @@ import PropTypes from 'prop-types'
 import { useField } from '../hooks'
 
 const LoginForm = ({ handleSubmit }) => {
-  const username = useField('text')
-  const password = useField('password')
+  const [username, resetUsername] = useField('text')
+  const [password, resetPassword] = useField('password')
 
   LoginForm.propTypes = {
     handleSubmit: PropTypes.func.isRequired
   }
 
   const preSubmit = (event) => {
-    username.reset()
-    password.reset()
+    resetUsername()
+    resetPassword()
     handleSubmit(event)
   }
 
@@ -23,11 +23,11 @@ const LoginForm = ({ handleSubmit }) => {
       <form onSubmit={preSubmit}>
         <div>
           Käyttäjätunnus
-          <input {...username.att} />
+          <input {...username} />
         </div>
         <div>
           Salasana
-          <input {...password.att} />
+          <input {...password} />
         </div>
         <button type="submit">kirjaudu</button>
       </form>

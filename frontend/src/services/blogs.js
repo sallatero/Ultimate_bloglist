@@ -19,11 +19,18 @@ const update = async (id, newVersion) => {
       headers: { Authorization: token },
     }
     const response = await axios.put(`${baseUrl}/${id}`, newVersion, config)
+    //console.log('response after update: ', response)
     return response.data
   }catch (error) {
     console.log('error: ', error)
     if (error.response) {
-      return { errorTitle: error.response.data.error, statusCode: error.response.status }
+      //errorTitle: "expired token", statusCode: 401
+      if (error.response.status === 401) {
+        console.log('blogService: token nullattu')
+        token = null
+        return error.response.status
+      }
+      //return { errorTitle: error.response.data.error, statusCode: error.response.status }
     }
   }
 }

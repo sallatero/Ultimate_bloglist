@@ -115,8 +115,15 @@ blogsRouter.put('/:id', async (request, response, next) => {
       return response.status(404).json({ error: 'blog does not exist' })
     }
     const newVersion = await Blog.findByIdAndUpdate(request.params.id, putThis, { new: true })
-    if (newVersion) {
-      response.status(200).json(newVersion.toJSON())
+    const newBlog = newVersion.toJSON()
+    //Haetaan käyttäjä kannasta
+    const user = await User.findById(decodedToken.id)
+    const userObj = user.toJSON()
+
+    newBlog.user = { username: userObj.username, name: userObj.name, id: userObj.id }
+
+    if (newBlog) {
+      response.status(200).json(newBlog)
     } else {
       response.status(404).end()
     }
