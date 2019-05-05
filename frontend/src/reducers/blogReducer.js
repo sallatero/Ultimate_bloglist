@@ -19,7 +19,7 @@ export const createBlog = blog => {
   return async dispatch => {
     const newBlog = await blogService.create(blog)
     dispatch({
-      type: 'NEW',
+      type: 'NEW_BLOG',
       data: newBlog
     })
   }
@@ -28,7 +28,7 @@ export const deleteBlog = id => {
   return async dispatch => {
     await blogService.remove(id)
     dispatch({
-      type: 'DELETE',
+      type: 'DELETE_BLOG',
       data: { id }
     })
   }
@@ -47,7 +47,7 @@ export const likeBlog = (blog) => {
         //Miten ohjaa loginiin
       }
       dispatch({
-        type: 'LIKE',
+        type: 'LIKE_BLOG',
         data: modifiedBlog
       })
       //setBlogs(blogs.map(b => b.id !== id ? b : newVersion))
@@ -64,15 +64,15 @@ const blogReducer = (state = [], action) => {
   case 'INIT_BLOGS' : {
     return action.data
   }
-  case 'NEW' : {
+  case 'NEW_BLOG' : {
     const newState = state.concat(action.data)
     return newState
   }
-  case 'LIKE' : {
+  case 'LIKE_BLOG' : {
     const newState = state.map(b => b.id === action.data.id ? action.data : b)
     return newState
   }
-  case 'DELETE' : {
+  case 'DELETE_BLOG' : {
     const newState = state.filter(b => b.id !== action.data.id)
     return newState
   }

@@ -11,7 +11,7 @@ export const setMessage = (content, seconds) => {
     })
     setTimeout(() => {
       dispatch({
-        type: 'RESET'
+        type: 'RESET_NOTIFICATION'
       })
     }, seconds)
   }
@@ -24,7 +24,7 @@ const notificationReducer = (state = '', action) => {
   case 'SET_MSG' : {
     return action.content
   }
-  case 'RESET' : {
+  case 'RESET_NOTIFICATION' : {
     return null
   }
   default:

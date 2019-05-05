@@ -11,10 +11,11 @@ import { setMessage } from './reducers/notificationReducer'
 import { createBlog, initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
 import { connect } from 'react-redux'
 import Bloglist from './components/BlogList'
+import { initializeUser, setUser, logoutUser } from './reducers/userReducer'
 
 const App = (props) => {
   //const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
+  //const [user, setUser] = useState(null)
 
   //Haetaan kannasta blogit
   useEffect(() => {
@@ -23,12 +24,7 @@ const App = (props) => {
 
   //Haetaan kirjautuneen käyttäjän tiedot ekalla latauksella
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if(loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
+    props.initializeUser()
   }, [])
 
   const addMessage = (message) => {
@@ -50,20 +46,13 @@ const App = (props) => {
         console.log('Kirjautuminen ei onnistunut')
         return
       } else {
-        const user = response
-        setUser(user)
-        console.log('setUser: ', user)
-        addMessage('Kirjautuminen onnistui')
-
-        window.localStorage.setItem(
-          'loggedBlogappUser', JSON.stringify(user)
-        )
-        console.log('blogServiceen: ')
-        blogService.setToken(user.token)
-        console.log('after setToken')
-        addMessage(`Tervetuloa ${user.name}`)
+        //const user = response
+        //setUser(user)
+        props.setUser(response)
+        addMessage(`Tervetuloa ${response.name}`)
       }
     } catch(exception) {
+      console.log('exception: ', exception)
       addMessage('kirjautuminen epäonnistui')
     }
   }
@@ -93,9 +82,10 @@ const App = (props) => {
     event.preventDefault()
     console.log('logging out user')
     try {
-      window.localStorage.clear()
-      blogService.setToken(null)
-      setUser(null)
+      props.logoutUser()
+      //window.localStorage.clear()
+      //blogService.setToken(null)
+      //setUser(null)
       addMessage('Hei hei!')
     } catch(exception) {
       addMessage('uloskirjaus ei onnistunut')
@@ -127,24 +117,28 @@ const App = (props) => {
       <h1>Blogilista-sovellus</h1>
       <Notification />
 
-      {user === null ?
+      {props.user === null ?
         <div>{loginform()}</div> :
         <div>
-          <p>{user.name} logged in</p>
+          <p>{props.user.name} logged in</p>
           <LogoutButton handleSubmit={handleLogout} />
           {blogform()}
-          <Bloglist username={user.username}/>
+          <Bloglist username={props.user.username}/>
         </div>
       }
     </div>
   )
 }
 
-const mapDispatchToProps = {
-  setMessage,
-  initializeBlogs,
-  likeBlog,
-  deleteBlog
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
 }
 
-export default connect(null, mapDispatchToProps)(App)
+const mapDispatchToProps = {
+  setMessage,
+  initializeUser, setUser, logoutUser,
+  initializeBlogs, likeBlog, deleteBlog
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App)
