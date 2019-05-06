@@ -26,8 +26,7 @@ const BlogForm = (props) => {
     urlReset()
     likesReset()
     try {
-      props.createBlog(blog)
-      props.setMessage(`New blog added '${blog.title}`, 5000)
+      props.createBlog(blog, props.token)
       props.blogFormRef.current.toggleVisibility()
     } catch (exception) {
       props.setMessage('Blog add unsuccessful!', 5000)
@@ -61,10 +60,15 @@ const BlogForm = (props) => {
     </div>
   )
 }
+const mapStateToProps = (state) => {
+  return {
+    token: state.user.token
+  }
+}
 
 const mapDispatchToProps = {
   createBlog,
   setMessage
 }
 
-export default connect(null, mapDispatchToProps)(BlogForm)
+export default connect(mapStateToProps, mapDispatchToProps)(BlogForm)

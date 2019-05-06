@@ -5,6 +5,7 @@ content: message to be shown
 export const setMessage = (content, seconds) => {
   console.log('setMessage: ', content)
   return dispatch => {
+    //console.log('set msg action') Jos 401, ei tule tänne
     dispatch({
       type: 'SET_MSG',
       content

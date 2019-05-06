@@ -19,13 +19,10 @@ const Blog = (props) => {
   }
 
   const addLike = (blog) => {
-    props.likeBlog(blog)
-    //ei saa antaa viestiä jos ei onnistunut
-    props.setMessage(`You liked blog ${blog.title}`, 5000)
+    props.likeBlog(blog, props.token)
   }
   const deleteBlog = (blog) => {
-    props.deleteBlog(blog.id)
-    props.setMessage(`Removed blog ${blog.title}`, 5000)
+    props.deleteBlog(blog, props.token)
   }
 
   //showAllInfo: näytetään kun blogi on "avattu"
@@ -53,16 +50,17 @@ const Blog = (props) => {
     </div>
   )
 }
-/*
+
 const mapStateToProps = (state) => {
-  console.log(state)
+  //console.log(state)
   return {
-    blogsToShow: blogsToShow(state)
+    username: state.user.username,
+    token: state.user.token
   }
-}*/
+}
 
 const mapDispatchToProps = {
   likeBlog, deleteBlog,
   setMessage
 }
-export default connect(null, mapDispatchToProps)(Blog)
+export default connect(mapStateToProps, mapDispatchToProps)(Blog)

@@ -15,37 +15,55 @@ export const initializeBlogs = () => {
   }
 }
 
-export const createBlog = blog => {
+export const createBlog = (blog, token) => {
   return async dispatch => {
-    const newBlog = await blogService.create(blog)
+    const newBlog = await blogService.create(blog, token)
+    dispatch(setMessage(`New blog added '${blog.title}`, 5000))
     dispatch({
       type: 'NEW_BLOG',
       data: newBlog
     })
   }
 }
-export const deleteBlog = id => {
+export const deleteBlog = (blog, token) => {
   return async dispatch => {
-    await blogService.remove(id)
-    dispatch({
-      type: 'DELETE_BLOG',
-      data: { id }
-    })
+    try {
+      const response = await blogService.remove(blog.id, token)
+      //Tarkistetaan oikeudet poistoon
+      if (response === 401) {
+        dispatch(setMessage('Unauthorized action.', 5000))
+        dispatch({
+          type: 'RESET_USER'
+        })
+        return
+      }
+      dispatch(setMessage(`Blog ${blog.title} deleted`, 5000))
+      dispatch({
+        type: 'DELETE_BLOG',
+        data: { id: blog.id }
+      })
+    }catch (exception) {
+      console.log('EXCEPTION: poistaminen ei onnistunut, ', exception)
+    }
   }
 }
 
-export const likeBlog = (blog) => {
+export const likeBlog = (blog, token) => {
   return async dispatch => {
     const obj = { ...blog, likes: blog.likes + 1 }
     //blogs.find(b => b.id === id)
     try {
-      const modifiedBlog = await blogService.update(blog.id, obj)
-      //errorTitle: "expired token", statusCode: 401
-      //ei saa dispatchata jos error
+      const modifiedBlog = await blogService.update(blog.id, obj, token)
+      //Jos unauthorized: errorTitle: "expired token", statusCode: 401
       if (modifiedBlog === 401) {
-        setMessage('Unauthorized action.', 5000)
-        //Miten ohjaa loginiin
+        dispatch(setMessage('Unauthorized action.', 5000))
+        //Ohjataan loginiin
+        dispatch({
+          type: 'RESET_USER'
+        })
+        return
       }
+      dispatch(setMessage(`You liked blog ${blog.title}`, 5000))
       dispatch({
         type: 'LIKE_BLOG',
         data: modifiedBlog

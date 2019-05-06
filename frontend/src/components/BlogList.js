@@ -9,7 +9,7 @@ const BlogList = (props) => {
     <div>
       <h2>Blogs</h2>
       {props.blogsToShow.map(b =>
-        <Blog key={b.id} blog={b} username={props.username}/>
+        <Blog key={b.id} blog={b} />
       )}
     </div>
   )

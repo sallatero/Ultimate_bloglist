@@ -11,7 +11,7 @@ import { setMessage } from './reducers/notificationReducer'
 import { createBlog, initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
 import { connect } from 'react-redux'
 import Bloglist from './components/BlogList'
-import { initializeUser, setUser, logoutUser } from './reducers/userReducer'
+import { initializeUser, setUser, loginUser, logoutUser } from './reducers/userReducer'
 
 const App = (props) => {
   //const [blogs, setBlogs] = useState([])
@@ -37,20 +37,11 @@ const App = (props) => {
     //console.log('logging in', event.target[0].value, event.target[1].value)
 
     try {
+      /*
       const response = await loginService.login({
         username: event.target[0].value, password: event.target[1].value
-      })
-      console.log('response handleLoginissa: ', response)
-      if (response.errorTitle && response.statusCode) { //Authentication problem
-        addMessage(`Kirjautuminen ei onnistunut: ${response.errorTitle}`)
-        console.log('Kirjautuminen ei onnistunut')
-        return
-      } else {
-        //const user = response
-        //setUser(user)
-        props.setUser(response)
-        addMessage(`Tervetuloa ${response.name}`)
-      }
+      })*/
+      props.loginUser(event.target[0].value, event.target[1].value)
     } catch(exception) {
       console.log('exception: ', exception)
       addMessage('kirjautuminen epäonnistui')
@@ -86,7 +77,6 @@ const App = (props) => {
       //window.localStorage.clear()
       //blogService.setToken(null)
       //setUser(null)
-      addMessage('Hei hei!')
     } catch(exception) {
       addMessage('uloskirjaus ei onnistunut')
     }
@@ -138,7 +128,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setMessage,
-  initializeUser, setUser, logoutUser,
+  initializeUser, setUser, logoutUser, loginUser,
   initializeBlogs, likeBlog, deleteBlog
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)
