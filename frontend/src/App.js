@@ -7,11 +7,13 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LogoutButton from './components/LogoutButton'
 import Togglable from './components/Togglable'
+import UserList from './components/UserList'
 import { setMessage } from './reducers/notificationReducer'
 import { createBlog, initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
 import { connect } from 'react-redux'
 import Bloglist from './components/BlogList'
 import { initializeUser, setUser, loginUser, logoutUser } from './reducers/userReducer'
+import { initializeUsers } from './reducers/userlistReducer'
 
 const App = (props) => {
   //const [blogs, setBlogs] = useState([])
@@ -25,6 +27,11 @@ const App = (props) => {
   //Haetaan kirjautuneen käyttäjän tiedot ekalla latauksella
   useEffect(() => {
     props.initializeUser()
+  }, [])
+
+  //Haetaan kannasta käyttäjät
+  useEffect(() => {
+    props.initializeUsers()
   }, [])
 
   const addMessage = (message) => {
@@ -113,6 +120,7 @@ const App = (props) => {
           <p>{props.user.name} logged in</p>
           <LogoutButton handleSubmit={handleLogout} />
           {blogform()}
+          <UserList />
           <Bloglist username={props.user.username}/>
         </div>
       }
@@ -129,6 +137,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setMessage,
   initializeUser, setUser, logoutUser, loginUser,
-  initializeBlogs, likeBlog, deleteBlog
+  initializeBlogs, likeBlog, deleteBlog,
+  initializeUsers
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)

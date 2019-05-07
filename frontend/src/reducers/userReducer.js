@@ -6,7 +6,6 @@ export const initializeUser = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      //blogService.setToken(user.token)
       dispatch({
         type: 'SET_USER',
         data: user
@@ -27,6 +26,9 @@ export const loginUser = (username, password) => {
       })
       return
     }
+    //Lisää käyttäjän tiedot local storageen
+    console.log('user: ', user)
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
     dispatch(setMessage(`Tervetuloa ${user.name}`, 5000))
     dispatch({
       type: 'SET_USER',
