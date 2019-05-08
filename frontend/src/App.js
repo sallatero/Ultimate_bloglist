@@ -10,6 +10,7 @@ import Togglable from './components/Togglable'
 import UserList from './components/UserList'
 import Home from './components/Home'
 import Info from './components/Info'
+import User from './components/User'
 import { setMessage } from './reducers/notificationReducer'
 import { createBlog, initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
 import { connect } from 'react-redux'
@@ -82,6 +83,11 @@ const App = (props) => {
     </div>
   )  */
 
+  const userById = (id) => {
+    const user = props.users.find(u => u.id === id)
+    return user
+  }
+
   const padding = { padding: 5 }
 
   return (
@@ -96,8 +102,15 @@ const App = (props) => {
                 <Link style={padding} to="/">home</Link>
                 <Link style={padding} to="/users">users</Link>
               </div>
-              <Route exact path="/" render={() => <Home />} />
-              <Route path="/users" render={() => <UserList />} />
+              <Route exact path="/" render={() =>
+                <Home />
+              } />
+              <Route exact path="/users" render={() =>
+                <UserList />
+              } />
+              <Route exact path="/users/:id" render={({ match }) =>
+                <User user={userById(match.params.id)} />
+              } />
             </div>
           </Router>
         </div>
@@ -116,7 +129,8 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    users: state.users
   }
 }
 const mapDispatchToProps = {

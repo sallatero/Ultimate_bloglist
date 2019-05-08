@@ -1,6 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Info from './Info'
+import { Link } from 'react-router-dom'
+
+const UserListItem = ({ user }) => {
+  return (
+    <tr><td><Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td></tr>
+  )
+}
 
 const UserList = (props) => {
 
@@ -10,16 +16,10 @@ const UserList = (props) => {
       <table><tbody>
         <tr><th></th><th>blogs created</th></tr>
         {props.users.map(u =>
-          <User key={u.id} user={u} />
+          <UserListItem key={u.id} user={u} />
         )}
       </tbody></table>
     </div>
-  )
-}
-
-const User = (user) => {
-  return (
-    <tr><td>{user.user.name}</td><td>{user.user.blogs.length}</td></tr>
   )
 }
 
