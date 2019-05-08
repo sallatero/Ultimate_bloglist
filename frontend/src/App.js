@@ -18,6 +18,7 @@ import Bloglist from './components/BlogList'
 import { initializeUser, setUser, loginUser, logoutUser } from './reducers/loggedUserReducer'
 import { initializeUsers } from './reducers/userlistReducer'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
+import BlogPage from './components/BlogPage'
 
 const App = (props) => {
   console.log('app alkoi')
@@ -88,6 +89,11 @@ const App = (props) => {
     return user
   }
 
+  const blogById = (id) => {
+    const blog = props.blogs.find(b => b.id === id)
+    return blog
+  }
+
   const padding = { padding: 5 }
 
   if (props.loggedUser === null) {
@@ -114,6 +120,9 @@ const App = (props) => {
               </div>
               <Route exact path="/" render={() =>
                 <Home />
+              } />
+              <Route exact path="/blogs/:id" render={({ match }) =>
+                <BlogPage blog={blogById(match.params.id)} />
               } />
               <Route exact path="/users" render={() =>
                 <UserList />
@@ -183,7 +192,8 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return {
     loggedUser: state.loggedUser,
-    users: state.users
+    users: state.users,
+    blogs: state.blogs
   }
 }
 const mapDispatchToProps = {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Blog from './Blog'
+import { Link } from 'react-router-dom'
 
 const BlogList = (props) => {
   console.log('PROPS: ', props)
@@ -9,9 +9,23 @@ const BlogList = (props) => {
     <div>
       <h2>Blogs</h2>
       {props.blogsToShow.map(b =>
-        <Blog key={b.id} blog={b} />
+        <BlogListItem key={b.id} blog={b} />
       )}
     </div>
+  )
+}
+
+const BlogListItem = ({ blog }) => {
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
+  return (
+    <p style={blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link></p>
   )
 }
 
