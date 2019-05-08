@@ -1,25 +1,27 @@
 import React from 'react'
-//import blogService from '../services/blogs'
+import { connect } from 'react-redux'
+import { logoutUser } from '../reducers/userReducer'
+import { setMessage } from '../reducers/notificationReducer'
 
-const LogoutButton = ({ handleSubmit }) => {
+const LogoutButton = (props) => {
+
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    console.log('logging out user')
+    try {
+      props.logoutUser()
+    } catch(exception) {
+      props.setMessage('uloskirjaus ei onnistunut')
+    }
+  }
+
   return (
     <div>
-      <button type="submit" onClick={handleSubmit}>logout</button>
+      <button type="submit" onClick={handleLogout}>logout</button>
     </div>
   )
 }
-
-/*
-const LogoutButton = ({updateUser, addMessage}) => {
-
-
-  return (
-    <div>
-      <form>
-        <button type="submit" onClick={handleLogout}>logout</button>
-      </form>
-    </div>
-  )
+const mapDispatchToProps = {
+  logoutUser, setMessage
 }
-*/
-export default LogoutButton
+export default connect(null, mapDispatchToProps)(LogoutButton)
