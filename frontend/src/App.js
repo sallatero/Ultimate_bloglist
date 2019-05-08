@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-//import Blog from './components/Blog'
-//import blogService from './services/blogs'
-//import loginService from './services/login'
+import Blog from './components/Blog'
+import blogService from './services/blogs'
+import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LogoutButton from './components/LogoutButton'
 import Togglable from './components/Togglable'
 import UserList from './components/UserList'
+import Home from './components/Home'
+import Info from './components/Info'
 import { setMessage } from './reducers/notificationReducer'
 import { createBlog, initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
 import { connect } from 'react-redux'
@@ -15,21 +17,20 @@ import Bloglist from './components/BlogList'
 import { initializeUser, setUser, loginUser, logoutUser } from './reducers/userReducer'
 import { initializeUsers } from './reducers/userlistReducer'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
-import Home from './components/Home'
 
 const App = (props) => {
-
-  //Haetaan kannasta blogit
-  useEffect(() => {
-    props.initializeBlogs()
-  }, [])
-
-  //Haetaan kirjautuneen käyttäjän tiedot ekalla latauksella
+  console.log('app alkoi')
+  //Haetaan kirjautuneen käyttäjän tiedot ekalla latauksella,  console.log('initializing logged in user')
   useEffect(() => {
     props.initializeUser()
   }, [])
 
-  //Haetaan kannasta käyttäjät
+  //Haetaan kannasta blogit, console.log('initializing blogs')
+  useEffect(() => {
+    props.initializeBlogs()
+  }, [])
+
+  //Haetaan kannasta käyttäjät,  console.log('initializing all users')
   useEffect(() => {
     props.initializeUsers()
   }, [])
@@ -81,28 +82,36 @@ const App = (props) => {
     </div>
   )  */
 
+  const padding = { padding: 5 }
+
   return (
     <div className='app'>
-      <Router>
+      <Info />
+      {props.user === null ?
+        <div/> :
         <div>
-          <div>
-            <Link to="/">home</Link>
-
-          </div>
-          <Route exact path="/" render={() => <Home />} />
-
+          <Router>
+            <div>
+              <div>
+                <Link style={padding} to="/">home</Link>
+                <Link style={padding} to="/users">users</Link>
+              </div>
+              <Route exact path="/" render={() => <Home />} />
+              <Route path="/users" render={() => <UserList />} />
+            </div>
+          </Router>
         </div>
-      </Router>
+      }
     </div>
   )
 }
 
 /*
-<Link to="/blogs">blogs</Link>
-<Link to="/users">users</Link>
+<Link style={padding} to="/blogs">blogs</Link>
+
 
 <Route path="/blogs" render={() => <Blogs />} />
-<Route path="/users" render={() => <Users />} />
+
 */
 
 const mapStateToProps = (state) => {
@@ -110,7 +119,6 @@ const mapStateToProps = (state) => {
     user: state.user
   }
 }
-
 const mapDispatchToProps = {
   setMessage,
   initializeUser, setUser, logoutUser, loginUser,

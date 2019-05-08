@@ -6,8 +6,10 @@ import { setMessage } from '../reducers/notificationReducer'
 const Blog = (props) => {
   const [showAll, setShowAll] = useState(false)
   let deletable = true
-  if (props.blog.user) {
-    deletable = props.blog.user.username === props.username
+  if (props.user === null) {
+    deletable = false
+  } else if (props.blog.user) {
+    deletable = props.blog.user.username === props.user.username
   }
 
   const blogStyle = {
@@ -19,10 +21,10 @@ const Blog = (props) => {
   }
 
   const addLike = (blog) => {
-    props.likeBlog(blog, props.token)
+    props.likeBlog(blog, props.user.token)
   }
   const deleteBlog = (blog) => {
-    props.deleteBlog(blog, props.token)
+    props.deleteBlog(blog, props.user.token)
   }
 
   //showAllInfo: näytetään kun blogi on "avattu"
@@ -54,8 +56,7 @@ const Blog = (props) => {
 const mapStateToProps = (state) => {
   //console.log(state)
   return {
-    username: state.user.username,
-    token: state.user.token
+    user: state.user
   }
 }
 

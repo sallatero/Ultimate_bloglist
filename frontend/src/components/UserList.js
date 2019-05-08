@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Info from './Info'
 
 const UserList = (props) => {
 
   return (
-    <div>
+    <div className='user-list'>
       <h2>Users</h2>
       <table><tbody>
         <tr><th></th><th>blogs created</th></tr>
@@ -17,7 +18,6 @@ const UserList = (props) => {
 }
 
 const User = (user) => {
-  //console.log('USER: ', user)
   return (
     <tr><td>{user.user.name}</td><td>{user.user.blogs.length}</td></tr>
   )

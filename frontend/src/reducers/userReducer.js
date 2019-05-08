@@ -3,6 +3,7 @@ import { setMessage } from '../reducers/notificationReducer'
 
 export const initializeUser = () => {
   return dispatch => {
+    console.log('initializing logged in user')
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)

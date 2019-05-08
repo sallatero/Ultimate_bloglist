@@ -30,8 +30,10 @@ const BlogForm = (props) => {
     urlReset()
     likesReset()
     try {
-      props.createBlog(blog, props.token)
-      blogFormRef.current.toggleVisibility()
+      if (props.user) {
+        props.createBlog(blog, props.user.token)
+        blogFormRef.current.toggleVisibility()
+      }
     } catch (exception) {
       props.setMessage('Blog add unsuccessful!', 5000)
     }
@@ -66,7 +68,7 @@ const BlogForm = (props) => {
 }
 const mapStateToProps = (state) => {
   return {
-    token: state.user.token
+    user: state.user
   }
 }
 
