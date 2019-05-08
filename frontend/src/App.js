@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
-import blogService from './services/blogs'
-import loginService from './services/login'
+//import Blog from './components/Blog'
+//import blogService from './services/blogs'
+//import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import Bloglist from './components/BlogList'
 import { initializeUser, setUser, loginUser, logoutUser } from './reducers/userReducer'
 import { initializeUsers } from './reducers/userlistReducer'
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
 
 const App = (props) => {
   //const [blogs, setBlogs] = useState([])
@@ -125,7 +126,27 @@ const App = (props) => {
         </div>
       }
     </div>
-  )
+  ) 
+
+  /*
+  return (
+    <div className='app'>
+      <h1>Blogilista-sovellus</h1>
+      <Notification />
+      <Router>
+        <div>
+          <div>
+            <Link to="/">home</Link>
+            <Link to="/blogs">blogs</Link>
+            <Link to="/users">users</Link>
+          </div>
+          <Route exact path="/" render={() => <Home user={props.user}/>} />
+          <Route path="/blogs" render={() => <Blogs />} />
+          <Route path="/users" render={() => <Users />} />
+        </div>
+      </Router>
+    </div>
+  )*/
 }
 
 const mapStateToProps = (state) => {
