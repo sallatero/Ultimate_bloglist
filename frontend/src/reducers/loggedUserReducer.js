@@ -1,15 +1,15 @@
 import loginService from '../services/login'
-import { setMessage } from '../reducers/notificationReducer'
+import { setMessage } from './notificationReducer'
 
 export const initializeUser = () => {
   return dispatch => {
     console.log('initializing logged in user')
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if(loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
+      const loggedUser = JSON.parse(loggedUserJSON)
       dispatch({
         type: 'SET_USER',
-        data: user
+        data: loggedUser
       })
     }
   }
@@ -17,10 +17,10 @@ export const initializeUser = () => {
 
 export const loginUser = (username, password) => {
   return async dispatch => {
-    const user = await loginService.login({
+    const loggedUser = await loginService.login({
       username: username, password: password
     })
-    if (user.statusCode) {
+    if (loggedUser.statusCode) {
       dispatch(setMessage('Wrong username or password', 5000))
       dispatch({
         type: 'RESET_USER'
@@ -28,26 +28,26 @@ export const loginUser = (username, password) => {
       return
     }
     //Lisää käyttäjän tiedot local storageen
-    console.log('user: ', user)
-    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-    dispatch(setMessage(`Tervetuloa ${user.name}`, 5000))
+    console.log('user: ', loggedUser)
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(loggedUser))
+    dispatch(setMessage(`Tervetuloa ${loggedUser.name}`, 5000))
     dispatch({
       type: 'SET_USER',
-      data: user
+      data: loggedUser
     })
   }
 }
 
-export const setUser = (user) => {
+export const setUser = (loggedUser) => {
   return dispatch => {
-    console.log('setUser: ', user)
+    console.log('setUser: ', loggedUser)
     window.localStorage.setItem(
-      'loggedBlogappUser', JSON.stringify(user)
+      'loggedBlogappUser', JSON.stringify(loggedUser)
     )
-    dispatch(setMessage(`Tervetuloa ${user.name}`, 5000))
+    dispatch(setMessage(`Tervetuloa ${loggedUser.name}`, 5000))
     dispatch({
       type: 'SET_USER',
-      data: user
+      data: loggedUser
     })
   }
 }
@@ -65,7 +65,7 @@ export const logoutUser = () => {
   }
 }
 
-const userReducer = (state = null, action) => {
+const loggedUserReducer = (state = null, action) => {
   switch (action.type) {
   case 'SET_USER': {
     return action.data
@@ -78,4 +78,4 @@ const userReducer = (state = null, action) => {
   }
 }
 
-export default userReducer
+export default loggedUserReducer

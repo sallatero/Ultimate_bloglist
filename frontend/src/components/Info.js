@@ -10,10 +10,10 @@ const Info = (props) => {
     <div className='info'>
       <h1>Blogilista-sovellus</h1>
       <Notification />
-      {props.user === null ?
+      {props.loggedUser === null ?
         <LoginForm /> :
         <div>
-          <p>{props.user.name} logged in</p>
+          <p>{props.loggedUser.name} logged in</p>
           <LogoutButton />
         </div>
       }
@@ -22,7 +22,7 @@ const Info = (props) => {
 }
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    loggedUser: state.loggedUser
   }
 }
 export default connect(mapStateToProps)(Info)

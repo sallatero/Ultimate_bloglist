@@ -30,8 +30,8 @@ const BlogForm = (props) => {
     urlReset()
     likesReset()
     try {
-      if (props.user) {
-        props.createBlog(blog, props.user.token)
+      if (props.loggedUser) {
+        props.createBlog(blog, props.loggedUser.token)
         blogFormRef.current.toggleVisibility()
       }
     } catch (exception) {
@@ -68,7 +68,7 @@ const BlogForm = (props) => {
 }
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    loggedUser: state.loggedUser
   }
 }
 

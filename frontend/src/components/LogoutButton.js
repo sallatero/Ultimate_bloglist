@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { logoutUser } from '../reducers/userReducer'
+import { logoutUser } from '../reducers/loggedUserReducer'
 import { setMessage } from '../reducers/notificationReducer'
 
 const LogoutButton = (props) => {

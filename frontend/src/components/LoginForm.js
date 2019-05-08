@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Togglable from '../components/Togglable'
 import { useField } from '../hooks'
 import { setMessage } from '../reducers/notificationReducer'
-import { loginUser } from '../reducers/userReducer'
+import { loginUser } from '../reducers/loggedUserReducer'
 import { connect } from 'react-redux'
 
 

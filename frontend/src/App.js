@@ -15,7 +15,7 @@ import { setMessage } from './reducers/notificationReducer'
 import { createBlog, initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
 import { connect } from 'react-redux'
 import Bloglist from './components/BlogList'
-import { initializeUser, setUser, loginUser, logoutUser } from './reducers/userReducer'
+import { initializeUser, setUser, loginUser, logoutUser } from './reducers/loggedUserReducer'
 import { initializeUsers } from './reducers/userlistReducer'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
 
@@ -93,7 +93,7 @@ const App = (props) => {
   return (
     <div className='app'>
       <Info />
-      {props.user === null ?
+      {props.loggedUser === null ?
         <div/> :
         <div>
           <Router>
@@ -129,7 +129,7 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    loggedUser: state.loggedUser,
     users: state.users
   }
 }
