@@ -10,13 +10,6 @@ const Info = (props) => {
     <div className='info'>
       <h1>Blogilista-sovellus</h1>
       <Notification />
-      {props.loggedUser === null ?
-        <LoginForm /> :
-        <div>
-          <p>{props.loggedUser.name} logged in</p>
-          <LogoutButton />
-        </div>
-      }
     </div>
   )
 }

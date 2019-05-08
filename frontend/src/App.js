@@ -90,17 +90,27 @@ const App = (props) => {
 
   const padding = { padding: 5 }
 
-  return (
-    <div className='app'>
-      <Info />
-      {props.loggedUser === null ?
-        <div/> :
+  if (props.loggedUser === null) {
+    return (
+      <div className='app'>
+        <Info />
+        <Router><LoginForm /></Router>
+      </div>
+    )
+  } else {
+    return (
+      <div className='app'>
+        <Info />
         <div>
           <Router>
             <div>
               <div>
                 <Link style={padding} to="/">home</Link>
                 <Link style={padding} to="/users">users</Link>
+                <div>
+                  <em>{props.loggedUser.name} logged in</em>
+                  <LogoutButton />
+                </div>
               </div>
               <Route exact path="/" render={() =>
                 <Home />
@@ -111,12 +121,55 @@ const App = (props) => {
               <Route exact path="/users/:id" render={({ match }) =>
                 <User user={userById(match.params.id)} />
               } />
+              <Route path="/login" render={() =>
+                <LoginForm  />
+              } />
+            </div>
+          </Router>
+        </div>
+      </div>
+    )
+  }
+
+  /*
+  return (
+    <div className='app'>
+      <Info />
+      {props.loggedUser === null ?
+        <Login /> :
+        <div>
+          <Router>
+            <div>
+              <div>
+                <Link style={padding} to="/">home</Link>
+                <Link style={padding} to="/users">users</Link>
+                {props.loggedUser
+                  ? <div>
+                    <em>{props.loggedUser.name} logged in</em>
+                    <LogoutButton />
+                  </div>
+                  : <Link to='/login'>login</Link>
+                }
+              </div>
+              <Route exact path="/" render={() =>
+                <Home />
+              } />
+              <Route exact path="/users" render={() =>
+                <UserList />
+              } />
+              <Route exact path="/users/:id" render={({ match }) =>
+                <User user={userById(match.params.id)} />
+              } />
+              <Route path="/login" render={() =>
+                <Login  />
+              } />
             </div>
           </Router>
         </div>
       }
     </div>
   )
+  */
 }
 
 /*
