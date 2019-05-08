@@ -1,38 +1,54 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Togglable from '../components/Togglable'
 import { useField } from '../hooks'
+import { setMessage } from '../reducers/notificationReducer'
+import { loginUser } from '../reducers/userReducer'
+import { connect } from 'react-redux'
 
-const LoginForm = ({ handleSubmit }) => {
+
+const LoginForm = (props) => {
   const [username, resetUsername] = useField('text')
   const [password, resetPassword] = useField('password')
 
-  LoginForm.propTypes = {
-    handleSubmit: PropTypes.func.isRequired
-  }
-
-  const preSubmit = (event) => {
+  const handleLogin = async (event) => {
+    event.preventDefault()
     resetUsername()
     resetPassword()
-    handleSubmit(event)
+    try {
+      props.loginUser(event.target[0].value, event.target[1].value)
+    } catch(exception) {
+      console.log('exception: ', exception)
+      props.setMessage('kirjautuminen epäonnistui')
+    }
   }
 
-  return (
-    <div className='loginForm'>
-      <h2>Kirjaudu sisään</h2>
+  //Ref loginformiin
+  const loginFormRef = React.createRef()
 
-      <form onSubmit={preSubmit}>
-        <div>
+  return (
+    <Togglable buttonLabel="login" ref={loginFormRef}>
+      <div className='loginForm'>
+        <h2>Kirjaudu sisään</h2>
+
+        <form onSubmit={handleLogin}>
+          <div>
           Käyttäjätunnus
-          <input {...username} />
-        </div>
-        <div>
+            <input {...username} />
+          </div>
+          <div>
           Salasana
-          <input {...password} />
-        </div>
-        <button type="submit">kirjaudu</button>
-      </form>
-    </div>
+            <input {...password} />
+          </div>
+          <button type="submit">kirjaudu</button>
+        </form>
+      </div>
+    </Togglable>
   )
 }
 
-export default LoginForm
+const mapDispatchToProps = {
+  loginUser, setMessage
+}
+
+export default connect(null, mapDispatchToProps)(LoginForm)

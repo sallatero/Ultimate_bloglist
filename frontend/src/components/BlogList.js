@@ -25,7 +25,8 @@ const blogsToShow = ({ blogs }) => {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    blogsToShow: blogsToShow(state)
+    blogsToShow: blogsToShow(state),
+    username: state.user.username
   }
 }
 
