@@ -16,9 +16,7 @@ const LogoutButton = (props) => {
   }
 
   return (
-    <div>
-      <button type="submit" onClick={handleLogout}>logout</button>
-    </div>
+    <button type="submit" onClick={handleLogout}>logout</button>
   )
 }
 const mapDispatchToProps = {

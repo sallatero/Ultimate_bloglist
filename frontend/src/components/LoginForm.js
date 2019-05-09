@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Togglable from '../components/Togglable'
 import { useField } from '../hooks'
 import { setMessage } from '../reducers/notificationReducer'
@@ -27,24 +26,6 @@ export const LoginForm = (props) => {
 
   //Ref loginformiin
   const loginFormRef = React.createRef()
-  /*
-  return (
-    <div className='loginForm'>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          Username
-          <input {...username} />
-        </div>
-        <div>
-          Password
-          <input {...password} />
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </div>
-  ) */
-
 
   return (
     <Togglable buttonLabel="login" ref={loginFormRef}>
