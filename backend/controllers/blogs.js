@@ -154,17 +154,18 @@ blogsRouter.put('/:id', async (request, response, next) => {
     const body = request.body
 
     const putThis = {
-      title: body.title,
-      author: body.author,
-      url: body.url,
+      title: oldVersion.title,
+      author: oldVersion.author,
+      url: oldVersion.url,
       likes: body.likes,
       comments: oldVersion.comments
     }
+    //const putThis = {...oldVersion, likes: body.likes}
 
     const newVersion = await Blog.findByIdAndUpdate(request.params.id, putThis, { new: true })
     const newBlog = newVersion.toJSON()
-    //Haetaan käyttäjä kannasta
-    const user = await User.findById(decodedToken.id)
+    //Haetaan blogin lisännyt käyttäjä kannasta
+    const user = await User.findById(oldVersion.user)
     const userObj = user.toJSON()
 
     newBlog.user = { username: userObj.username, name: userObj.name, id: userObj.id }
