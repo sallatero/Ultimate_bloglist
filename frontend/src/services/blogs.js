@@ -1,16 +1,29 @@
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 
-//let token = null
-/*
-const setToken = newToken => {
-  console.log('setToken kutsuttu')
-  token = `bearer ${newToken}`
-}*/
-
 const getAll = () => {
   const request = axios.get(baseUrl)
   return request.then(response => response.data)
+}
+
+//post-pyynnössä pitää lähettää vain kommentti-olio
+const addComment = async (id, commentObj, token) => {
+  try {
+    const config = {
+      headers: { Authorization: `bearer ${token}` },
+    }
+    const response = await axios.post(`${baseUrl}/${id}/comments`, commentObj, config)
+    console.log('response after post: ', response)
+    return response.data
+  } catch (error) {
+    console.log('error: ', error)
+    if (error.response) {
+      //errorTitle: "expired token", statusCode: 401
+      if (error.response.status === 401) {
+        return error.response.status
+      }
+    }
+  }
 }
 
 const update = async (id, newVersion, token) => {
@@ -19,7 +32,7 @@ const update = async (id, newVersion, token) => {
       headers: { Authorization: `bearer ${token}` },
     }
     const response = await axios.put(`${baseUrl}/${id}`, newVersion, config)
-    //console.log('response after update: ', response)
+    console.log('response after update: ', response)
     return response.data
   }catch (error) {
     console.log('error: ', error)
@@ -71,4 +84,4 @@ const create = async (newObj, token) => {
   }
 }
 
-export default { getAll, create, update, remove }
+export default { getAll, create, update, remove, addComment }

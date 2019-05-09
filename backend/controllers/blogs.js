@@ -64,7 +64,8 @@ blogsRouter.post('/', async (request, response, next) => {
   }
 })
 
-//Lisää mahdollisuus lisätä kommentti
+//request.body -> { text: "kommenttiteksti" }
+//request.params.id kertoo mikä blogi
 blogsRouter.post('/:id/comments', async (request, response, next) => {
   try {
     console.log('request.body: ', request.body)
@@ -146,8 +147,9 @@ blogsRouter.put('/:id', async (request, response, next) => {
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
-
+    console.log('request.params.id: ', request.params.id)
     const oldVersion = await Blog.findById(request.params.id)
+    console.log('old version: ', oldVersion)
     if (!oldVersion) {
       return response.status(404).json({ error: 'blog does not exist' })
     }
@@ -164,12 +166,12 @@ blogsRouter.put('/:id', async (request, response, next) => {
 
     const newVersion = await Blog.findByIdAndUpdate(request.params.id, putThis, { new: true })
     const newBlog = newVersion.toJSON()
-    //Haetaan blogin lisännyt käyttäjä kannasta
-    const user = await User.findById(oldVersion.user)
-    const userObj = user.toJSON()
-
-    newBlog.user = { username: userObj.username, name: userObj.name, id: userObj.id }
-
+    //Haetaan blogin lisännyt käyttäjä kannasta JOS SE ON OLEMASSA
+    if (oldVersion.user) {
+      const user = await User.findById(oldVersion.user)
+      const userObj = user.toJSON()
+      newBlog.user = { username: userObj.username, name: userObj.name, id: userObj.id }
+    }
     if (newBlog) {
       response.status(200).json(newBlog)
     } else {

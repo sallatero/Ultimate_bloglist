@@ -51,9 +51,10 @@ export const deleteBlog = (blog, token) => {
 export const likeBlog = (blog, token) => {
   return async dispatch => {
     const obj = { ...blog, likes: blog.likes + 1 }
-    //blogs.find(b => b.id === id)
+    console.log('LIKE BLOG: ', blog)
     try {
       const modifiedBlog = await blogService.update(blog.id, obj, token)
+      console.log('Modified blog: ', modifiedBlog)
       //Jos unauthorized: errorTitle: "expired token", statusCode: 401
       if (modifiedBlog === 401) {
         dispatch(setMessage('Unauthorized action.', 5000))
@@ -75,6 +76,32 @@ export const likeBlog = (blog, token) => {
   }
 }
 
+export const commentBlog = (id, commentObj, token) => {
+  return async dispatch => {
+    try {
+      const modifiedBlog = await blogService.addComment(id, commentObj, token)
+      console.log('modifiedBlog: ', modifiedBlog)
+      //Jos unauthorized: errorTitle: "expired token", statusCode: 401
+      if (modifiedBlog === 401) {
+        dispatch(setMessage('Unauthorized action.', 5000))
+        //Ohjataan loginiin
+        dispatch({
+          type: 'RESET_USER'
+        })
+        return
+      }
+      dispatch(setMessage(`You added a comment to ${modifiedBlog.title}`, 5000))
+      dispatch({
+        type: 'COMMENT_BLOG',
+        data: modifiedBlog
+      })
+      //setBlogs(blogs.map(b => b.id !== id ? b : newVersion))
+    }catch (exception) {
+      console.log('EXCEPTION: kommentointi ei onnistunut, ', exception)
+    }
+  }
+}
+
 const blogReducer = (state = [], action) => {
   console.log('blogReducer: ', action.type, action.data)
 
@@ -87,6 +114,10 @@ const blogReducer = (state = [], action) => {
     return newState
   }
   case 'LIKE_BLOG' : {
+    const newState = state.map(b => b.id === action.data.id ? action.data : b)
+    return newState
+  }
+  case 'COMMENT_BLOG' : {
     const newState = state.map(b => b.id === action.data.id ? action.data : b)
     return newState
   }

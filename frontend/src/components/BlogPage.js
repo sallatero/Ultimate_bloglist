@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { setMessage } from '../reducers/notificationReducer'
 import { withRouter } from 'react-router-dom'
+import CommentForm from './CommentForm'
 
 const BlogPage = (props) => {
   if (props.blog === undefined) {
@@ -42,6 +43,7 @@ const BlogPage = (props) => {
         <p><button onClick={() => deleteBlog(props.blog)}>delete</button></p>
       </div>
       <h3>Comments</h3>
+      <CommentForm blog={props.blog}/>
       <ul>
         {props.blog.comments.map(c =>
           <li key={c.id}>{c.text}</li>
