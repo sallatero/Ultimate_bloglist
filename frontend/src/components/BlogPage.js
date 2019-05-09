@@ -41,10 +41,20 @@ const BlogPage = (props) => {
       <div style={ableToDelete}>
         <p><button onClick={() => deleteBlog(props.blog)}>delete</button></p>
       </div>
+      <h3>Comments</h3>
+      <ul>
+        {props.blog.comments.map(c =>
+          <li key={c.id}>{c.text}</li>
+        )}
+      </ul>
     </div>
   )
 }
-
+/*
+{props.blog.comments ? props.blog.comments.map(c =>
+  <li key={c.id}>{c.text}</li>
+) : <li>kk</li>}
+*/
 const mapStateToProps = (state) => {
   //console.log(state)
   return {

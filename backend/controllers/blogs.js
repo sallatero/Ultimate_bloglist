@@ -15,7 +15,9 @@ blogsRouter.get('/', async (request, response, next) => {
 
 blogsRouter.post('/', async (request, response, next) => {
   //Luodaan uusu Schema-olio pyynnön perusteella
-  const blog = new Blog(request.body)
+  let body = request.body
+  body.comments = []
+  const blog = new Blog(body)
   console.log('blogsRouter.postissa blog: ', blog)
 
   try {
@@ -62,6 +64,48 @@ blogsRouter.post('/', async (request, response, next) => {
   }
 })
 
+//Lisää mahdollisuus lisätä kommentti
+blogsRouter.post('/:id/comments', async (request, response, next) => {
+  try {
+    console.log('request.body: ', request.body)
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    //hae kannasta oikea blogi
+    const blog = await Blog.findById(request.params.id)
+    console.log('blogi: ', blog)
+    if (!blog) {
+      return response.status(404).json({ error: 'blog does not exist' })
+    }
+    //lisää blogin commentteihin saamasi kommentti
+    const c = blog.comments
+    const newC = c.concat(request.body)
+    blog.comments = newC
+    console.log('blogi lisäyksen jälkeen: ', blog)
+    const newVersion = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    console.log('newVersion: ', newVersion)
+    const newBlog = newVersion.toJSON()
+    console.log('newBlog: ', newBlog)
+
+    if(blog.user !== undefined) {
+      //Haetaan käyttäjä kannasta
+      const user = await User.findById(blog.user)
+      console.log('user: ', user)
+      const userObj = user.toJSON()
+      newBlog.user = { username: userObj.username, name: userObj.name, id: userObj.id }
+    }
+    if (newBlog) {
+      response.status(200).json(newBlog)
+    } else {
+      response.status(404).end()
+    }
+
+  }catch(exception) {
+    next(exception)
+  }
+})
+
 blogsRouter.delete('/:id', async (request, response, next) => {
 
   try {
@@ -103,17 +147,20 @@ blogsRouter.put('/:id', async (request, response, next) => {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
 
-    const body = request.body
-    const putThis = {
-      title: body.title,
-      author: body.author,
-      url: body.url,
-      likes: body.likes
-    }
     const oldVersion = await Blog.findById(request.params.id)
     if (!oldVersion) {
       return response.status(404).json({ error: 'blog does not exist' })
     }
+    const body = request.body
+
+    const putThis = {
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes,
+      comments: oldVersion.comments
+    }
+
     const newVersion = await Blog.findByIdAndUpdate(request.params.id, putThis, { new: true })
     const newBlog = newVersion.toJSON()
     //Haetaan käyttäjä kannasta
