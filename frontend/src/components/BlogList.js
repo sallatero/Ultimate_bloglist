@@ -6,9 +6,12 @@ import { Table } from 'semantic-ui-react'
 const BlogList = (props) => {
   console.log('PROPS: ', props)
 
+  const style = {
+    marginTop: 5
+  }
+
   return (
-    <div>
-      <h2>Blogs</h2>
+    <div style={style}>
       <Table striped celled>
         <Table.Body>
           {props.blogsToShow.map(b =>

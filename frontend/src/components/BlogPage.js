@@ -4,6 +4,8 @@ import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { setMessage } from '../reducers/notificationReducer'
 import { withRouter } from 'react-router-dom'
 import CommentForm from './CommentForm'
+import { Divider, Header, Table, Button, List, ListContent, Image, Container } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 const BlogPage = (props) => {
   if (props.blog === undefined) {
@@ -33,29 +35,81 @@ const BlogPage = (props) => {
     props.history.push('/')
   }
 
+  //Kokeile like-nappulasta primary
+  //tee delete-nappula kaikille ja disabled jos ei saa poistaa
   return (
-    <div style={blogStyle} className='blog'>
-      <h2>{props.blog.title} by {props.blog.author}</h2>
-      <p><a href={props.blog.url}>{props.blog.url}</a></p>
-      <p>{props.blog.likes} likes <button onClick={() => addLike(props.blog)}>like</button></p>
-      <p>added by {props.blog.user ? props.blog.user.name : ''}</p>
-      <div style={ableToDelete}>
-        <p><button onClick={() => deleteBlog(props.blog)}>delete</button></p>
-      </div>
-      <h3>Comments</h3>
+    <Container text>
+      <Divider horizontal>
+        <Header as='h4'>
+          {props.blog.title} by {props.blog.author}
+        </Header>
+      </Divider>
+      <Table definition>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell width={2}>Title</Table.Cell>
+            <Table.Cell>{props.blog.title}</Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Author</Table.Cell>
+            <Table.Cell>{props.blog.author}</Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Url</Table.Cell>
+            <Table.Cell>
+              <Link to={props.blog.url}>{props.blog.url}</Link>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Likes</Table.Cell>
+            <Table.Cell>
+              {props.blog.likes} </Table.Cell>
+            <Table.Cell>
+              <Button size='mini' onClick={() => addLike(props.blog)}>like</Button>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Added by</Table.Cell>
+            <Table.Cell>
+              {props.blog.user ?
+                <Link to={`/users/${props.blog.user.id}`}>{props.blog.user.name}</Link>
+                : '' }
+            </Table.Cell>
+            <Table.Cell>
+              {deletable ?
+                <Button size='mini' onClick={() => deleteBlog(props.blog)}>delete</Button>
+                : ''}
+            </Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+      <Divider horizontal>
+        <Header as='h4'>
+      Comments
+        </Header>
+      </Divider>
       <CommentForm blog={props.blog}/>
-      <ul>
+      <List celled>
         {props.blog.comments.map(c =>
-          <li key={c.id}>{c.text}</li>
+          <List.Item key={c.id}> <Image avatar src="/comment.png" />
+            <ListContent>{c.text}</ListContent></List.Item>
         )}
-      </ul>
-    </div>
+      </List>
+    </Container>
   )
 }
 /*
-{props.blog.comments ? props.blog.comments.map(c =>
-  <li key={c.id}>{c.text}</li>
-) : <li>kk</li>}
+const blogDetails = () => {
+  return (
+
+  )
+}
+
+const blogComments = () => {
+  return (
+
+  )
+}
 */
 const mapStateToProps = (state) => {
   //console.log(state)

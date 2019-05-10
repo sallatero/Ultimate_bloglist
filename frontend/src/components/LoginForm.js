@@ -42,7 +42,8 @@ export const LoginForm = (props) => {
             <label>Password</label>
             <input {...password} />
           </Form.Field>
-          <Button type="submit">log in</Button>
+          <Button primary type="submit">log in</Button>
+          <Button type="reset" onClick={() => loginFormRef.current.toggleVisibility()}>cancel</Button>
         </Form>
       </div>
     </Togglable>

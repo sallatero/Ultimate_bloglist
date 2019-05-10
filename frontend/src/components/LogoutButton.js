@@ -17,7 +17,7 @@ const LogoutButton = (props) => {
   }
 
   return (
-    <Button type="submit" onClick={handleLogout}>logout</Button>
+    <Button compact type="submit" onClick={handleLogout}>logout</Button>
   )
 }
 const mapDispatchToProps = {

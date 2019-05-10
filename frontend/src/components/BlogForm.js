@@ -43,7 +43,7 @@ const BlogForm = (props) => {
   return (
     <Togglable buttonLabel='add blog' ref={blogFormRef}>
       <div>
-        <h2>Give blog details</h2>
+        <h3>Give blog details</h3>
         <Form onSubmit={addBlog}>
           <FormField>
             <label>Title</label>
@@ -61,7 +61,8 @@ const BlogForm = (props) => {
             <label>Likes</label>
             <input name='likes' {...likes} />
           </FormField>
-          <Button type="submit">save</Button>
+          <Button primary type="submit">save</Button>
+          <Button type="reset" onClick={() => blogFormRef.current.toggleVisibility()}>cancel</Button>
         </Form>
       </div>
     </Togglable>
