@@ -10,7 +10,7 @@ import { initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
 import { connect } from 'react-redux'
 import { initializeUser, setUser, loginUser, logoutUser } from './reducers/loggedUserReducer'
 import { initializeUsers } from './reducers/userlistReducer'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
 import BlogPage from './components/BlogPage'
 
 const App = (props) => {
@@ -56,8 +56,8 @@ const App = (props) => {
           <Router>
             <div>
               <div>
-                <Link style={padding} to="/">home</Link>
-                <Link style={padding} to="/users">users</Link>
+                <NavLink style={padding} exact to="/" activeClassName="selected">home</NavLink>
+                <NavLink style={padding} to="/users" activeClassName="selected">users</NavLink>
                 <em>{props.loggedUser.name} logged in</em>
                 <LogoutButton />
               </div>
