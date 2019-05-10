@@ -5,7 +5,7 @@ const Info = () => {
 
   return (
     <div className='info'>
-      <h1>Blogilista-sovellus</h1>
+      <h1>Blog listing app</h1>
       <Notification />
     </div>
   )

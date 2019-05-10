@@ -4,6 +4,7 @@ import { useField } from '../hooks'
 import { createBlog } from '../reducers/blogReducer'
 import { setMessage } from '../reducers/notificationReducer'
 import Togglable from '../components/Togglable'
+import { Form, FormField, Button } from 'semantic-ui-react'
 
 const BlogForm = (props) => {
   const [title, titleReset] = useField('text')
@@ -42,26 +43,26 @@ const BlogForm = (props) => {
   return (
     <Togglable buttonLabel='add blog' ref={blogFormRef}>
       <div>
-        <h2>Lisää blogi</h2>
-        <form onSubmit={addBlog}>
-          <div>
-          Title
+        <h2>Give blog details</h2>
+        <Form onSubmit={addBlog}>
+          <FormField>
+            <label>Title</label>
             <input name='title' {...title} />
-          </div>
-          <div>
-          Author
+          </FormField>
+          <FormField>
+            <label>Author</label>
             <input name='author' {...author} />
-          </div>
-          <div>
-          Url
+          </FormField>
+          <FormField>
+            <label>Url</label>
             <input name='url' {...url} />
-          </div>
-          <div>
-          Likes
+          </FormField>
+          <FormField>
+            <label>Likes</label>
             <input name='likes' {...likes} />
-          </div>
-          <button type="submit">tallenna</button>
-        </form>
+          </FormField>
+          <Button type="submit">save</Button>
+        </Form>
       </div>
     </Togglable>
   )

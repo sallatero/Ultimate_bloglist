@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Message } from 'semantic-ui-react'
 
 const Notification = (props) => {
   let style = {
@@ -13,11 +14,21 @@ const Notification = (props) => {
   }
 
   return (
+    /*
     <div style={style}>
       {props.notification}
-    </div>
-  )
+    </div> */
+    <div>
+      {props.notification === '' || props.notification === null ?
+        <div/>
+        :
+        <Message success>
+          {props.notification}
+        </Message>
+      }
+    </div>  )
 }
+
 const mapStateToProps = (state) => {
   return {
     notification: state.notification

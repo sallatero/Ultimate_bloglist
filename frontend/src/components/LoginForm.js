@@ -5,6 +5,7 @@ import { setMessage } from '../reducers/notificationReducer'
 import { loginUser } from '../reducers/loggedUserReducer'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { Form, Button, FormField } from 'semantic-ui-react'
 
 export const LoginForm = (props) => {
   const [username, resetUsername] = useField('text')
@@ -30,19 +31,19 @@ export const LoginForm = (props) => {
   return (
     <Togglable buttonLabel="login" ref={loginFormRef}>
       <div className='loginForm'>
-        <h2>Kirjaudu sisään</h2>
+        <h2>Login here</h2>
 
-        <form onSubmit={handleLogin}>
-          <div>
-          Käyttäjätunnus
+        <Form onSubmit={handleLogin}>
+          <Form.Field>
+            <label>Username</label>
             <input {...username} />
-          </div>
-          <div>
-          Salasana
+          </Form.Field>
+          <Form.Field>
+            <label>Password</label>
             <input {...password} />
-          </div>
-          <button type="submit">kirjaudu</button>
-        </form>
+          </Form.Field>
+          <Button type="submit">log in</Button>
+        </Form>
       </div>
     </Togglable>
   )

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Table } from 'semantic-ui-react'
 
 const BlogList = (props) => {
   console.log('PROPS: ', props)
@@ -8,24 +9,20 @@ const BlogList = (props) => {
   return (
     <div>
       <h2>Blogs</h2>
-      {props.blogsToShow.map(b =>
-        <BlogListItem key={b.id} blog={b} />
-      )}
+      <Table striped celled>
+        <Table.Body>
+          {props.blogsToShow.map(b =>
+            <Table.Row key={b.id}>
+              <Table.Cell>
+                <Link to={`/blogs/${b.id}`}>
+                  {b.title} by {b.author}
+                </Link>
+              </Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
     </div>
-  )
-}
-
-const BlogListItem = ({ blog }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
-  return (
-    <p style={blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link></p>
   )
 }
 
