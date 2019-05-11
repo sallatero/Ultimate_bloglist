@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import MenuComponent from './components/MenuComponent'
+import Footer from './components/Footer'
 import { setMessage } from './reducers/notificationReducer'
 import { initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
 import { connect } from 'react-redux'
@@ -45,6 +46,7 @@ const App = (props) => {
   return (
     <Router>
       <MenuComponent />
+      <Footer />
     </Router>
   )
 }

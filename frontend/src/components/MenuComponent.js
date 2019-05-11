@@ -75,7 +75,6 @@ size='mini' color='teal'
       </div>
     </Container>
   )
-
 }
 const mapStateToProps = (state) => {
   return {
