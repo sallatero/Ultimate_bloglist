@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { logoutUser } from '../reducers/loggedUserReducer'
 import { setMessage } from '../reducers/notificationReducer'
-import { Button } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 
 const LogoutButton = (props) => {
 
@@ -17,7 +17,9 @@ const LogoutButton = (props) => {
   }
 
   return (
-    <Button compact type="submit" onClick={handleLogout}>logout</Button>
+    <Button icon labelPosition='left' floated='right' onClick={handleLogout}>
+      <Icon name='sign-out'/>
+Logout</Button>
   )
 }
 const mapDispatchToProps = {

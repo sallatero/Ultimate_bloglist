@@ -1,18 +1,32 @@
 import React from 'react'
+import { Container, List, Divider, Header } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 //käyttäjän lisäämät blogit
 const User = ({ user }) => {
   if (user === undefined) {
     return null
   }
+
+  //Tee samalla tavalla kuin PlogPage, eli
+  // horizontal viivat/otsikot
+  //Yhtenäistä otsikot koko appissa
   return (
-    <div className='user'>
+    <Container text>
       <h2>{user.name}</h2>
-      <h3>added blogs</h3>
-      <ul>
-        {user.blogs.map(b => <li key={b.id}>{b.title}</li>)}
-      </ul>
-    </div>
+      <Divider horizontal>
+        <Header as='h4'>
+          added blogs
+        </Header>
+      </Divider>
+      <List>
+        {user.blogs.map(b =>
+          <List.Item key={b.id}>
+            <Link key={b.id} to={`/blogs/${b.id}`}>{b.title}</Link>
+          </List.Item>
+        )}
+      </List>
+    </Container>
   )
 }
 

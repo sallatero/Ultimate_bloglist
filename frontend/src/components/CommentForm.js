@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { useField } from '../hooks'
 import { commentBlog } from '../reducers/blogReducer'
 import { setMessage } from '../reducers/notificationReducer'
-import { Form, Button, FormField } from 'semantic-ui-react'
+import { Form, Button, Icon } from 'semantic-ui-react'
 
 //Kun CommentForm luodaan annetan sille blogi, johon se liittyy
 const CommentForm = (props) => {
@@ -29,10 +29,12 @@ const CommentForm = (props) => {
   return (
     <div>
       <Form onSubmit={commentBlog}>
-        <FormField>
-          <input name='comment' {...comment} />
-        </FormField>
-        <Button type="submit">add comment</Button>
+        <Form.Group>
+          <Form.Input width='15' placeholder='leave a comment...' name='comment' {...comment} />
+          <Button icon labelPosition='left'>
+            <Icon name='comment'/>
+          Comment</Button>
+        </Form.Group>
       </Form>
     </div>
   )
