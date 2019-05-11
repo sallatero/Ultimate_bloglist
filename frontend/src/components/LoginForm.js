@@ -5,7 +5,7 @@ import { setMessage } from '../reducers/notificationReducer'
 import { loginUser } from '../reducers/loggedUserReducer'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Form, Button, FormField } from 'semantic-ui-react'
+import { Form, Button, Icon, Container, Divider, Header, Segment } from 'semantic-ui-react'
 
 export const LoginForm = (props) => {
   const [username, resetUsername] = useField('text')
@@ -29,10 +29,11 @@ export const LoginForm = (props) => {
   const loginFormRef = React.createRef()
 
   return (
-    <Togglable buttonLabel="login" ref={loginFormRef}>
-      <div className='loginForm'>
-        <h2>Login here</h2>
-
+    <Container text>
+      <Divider horizontal>
+        <Header as='h3'>Login here</Header>
+      </Divider>
+      <Segment raised>
         <Form onSubmit={handleLogin}>
           <Form.Field>
             <label>Username</label>
@@ -42,11 +43,11 @@ export const LoginForm = (props) => {
             <label>Password</label>
             <input {...password} />
           </Form.Field>
-          <Button primary type="submit">log in</Button>
-          <Button type="reset" onClick={() => loginFormRef.current.toggleVisibility()}>cancel</Button>
+          <Button type="submit" icon labelPosition='left'>
+            <Icon name='sign-in'/>Log in</Button>
         </Form>
-      </div>
-    </Togglable>
+      </Segment>
+    </Container>
   )
 }
 

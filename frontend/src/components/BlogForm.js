@@ -4,7 +4,7 @@ import { useField } from '../hooks'
 import { createBlog } from '../reducers/blogReducer'
 import { setMessage } from '../reducers/notificationReducer'
 import Togglable from '../components/Togglable'
-import { Form, FormField, Button } from 'semantic-ui-react'
+import { Form, FormField, Button, Icon } from 'semantic-ui-react'
 
 const BlogForm = (props) => {
   const [title, titleReset] = useField('text')
@@ -61,13 +61,17 @@ const BlogForm = (props) => {
             <label>Likes</label>
             <input name='likes' {...likes} />
           </FormField>
-          <Button primary type="submit">save</Button>
-          <Button type="reset" onClick={() => blogFormRef.current.toggleVisibility()}>cancel</Button>
+          <Button primary type="submit" icon labelPosition='left'>
+            <Icon name='save'/>Save</Button>
+
+          <Button type="reset" onClick={() => blogFormRef.current.toggleVisibility()}>
+            <Icon name='undo'/>Cancel</Button>
         </Form>
       </div>
     </Togglable>
   )
 }
+
 const mapStateToProps = (state) => {
   return {
     loggedUser: state.loggedUser

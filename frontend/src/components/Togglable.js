@@ -1,6 +1,6 @@
 import React, { useState, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Container } from 'semantic-ui-react'
+import { Button, Container, Icon } from 'semantic-ui-react'
 
 /*
 Komponentin Togglable luova funktio on kääritty funktiokutsun forwardRef sisälle.
@@ -40,10 +40,26 @@ const Togglable = React.forwardRef((props, ref) => {
   Toinen div (showWhenVisible) on edellisen master, sen yhteydessä on nappula,
   jolla master voidaan piilottaa
   */
+  const myButton = () => {
+    if (props.buttonLabel === 'login') {
+      return (
+        <Button icon labelPosition='left' onClick={toggleVisibility}>
+          <Icon name='sign-in'/>Login</Button>
+      )
+    } else if (props.buttonLabel === 'add blog') {
+      return (
+        <Button icon labelPosition='left' onClick={toggleVisibility}>
+          <Icon name='add'/>Add blog</Button>
+      )
+    } else {
+      return null
+    }
+  }
+
   return (
     <React.Fragment>
       <Container textAlign='right' style={hideWhenVisible}>
-        <Button onClick={toggleVisibility}>{props.buttonLabel}</Button>
+        {myButton()}
       </Container>
       <Container style={showWhenVisible}>
         {props.children}
@@ -52,5 +68,7 @@ const Togglable = React.forwardRef((props, ref) => {
   )
 }
 )
+
+Togglable.displayName = 'Togglable'
 
 export default Togglable

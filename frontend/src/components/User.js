@@ -15,7 +15,7 @@ const User = ({ user }) => {
     <Container text>
       <h2>{user.name}</h2>
       <Divider horizontal>
-        <Header as='h4'>
+        <Header as='h3'>
           added blogs
         </Header>
       </Divider>

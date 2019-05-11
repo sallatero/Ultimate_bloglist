@@ -30,7 +30,7 @@ const BlogPage = (props) => {
   return (
     <Container text>
       <Divider horizontal>
-        <Header as='h4'>
+        <Header as='h3'>
           {props.blog.title} by {props.blog.author}
         </Header>
       </Divider>
@@ -82,7 +82,7 @@ const BlogPage = (props) => {
         </Table.Body>
       </Table>
       <Divider horizontal>
-        <Header as='h4'>
+        <Header as='h3'>
       Comments
         </Header>
       </Divider>

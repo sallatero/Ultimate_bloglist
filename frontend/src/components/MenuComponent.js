@@ -29,10 +29,16 @@ size='mini' color='teal'
       <div className='app'>
         {props.loggedUser === null ?
           <div>
+            <Segment inverted>
+              <Menu inverted pointing secondary>
+              </Menu>
+            </Segment>
             <Info />
-            <Router>
-              <LoginForm />
-            </Router>
+            <Container text>
+              <Router>
+                <LoginForm />
+              </Router>
+            </Container>
           </div>
           :
           <div>
