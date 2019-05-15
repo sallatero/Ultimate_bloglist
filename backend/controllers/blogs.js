@@ -14,7 +14,7 @@ blogsRouter.get('/', async (request, response, next) => {
 })
 
 blogsRouter.post('/', async (request, response, next) => {
-  //Luodaan uusu Schema-olio pyynnön perusteella
+  //Luodaan uusi Schema-olio pyynnön perusteella
   let body = request.body
   body.comments = []
   const blog = new Blog(body)
@@ -45,7 +45,9 @@ blogsRouter.post('/', async (request, response, next) => {
     console.log('blog with user-id: ', blog)
     //Talletetaan blogi kantaan
     const savedBlog = await blog.save()
-    console.log('savedBlog: ', savedBlog)
+    console.log('savedBlog: ', savedBlog) //savedBlog sisältää vain user-id:n
+
+    const populatedBlog = await Blog.findById(savedBlog.id).populate('user')
 
     //Lisätään blog-id käyttäjän taulukkoon blogs
     user.blogs = user.blogs.concat(savedBlog._id)
@@ -55,10 +57,13 @@ blogsRouter.post('/', async (request, response, next) => {
 
     //Tallennetaan user-olio (vain kentät username, name ja id) blogin kenttään user ja palautetaan se JSONina
     const u = savedUser.toJSON()
+    console.log('u: ', u)
     const b = savedBlog.toJSON()
+    console.log('b: ', b)
     b.user = { username: u.username, name: u.name, id: u.id }
     console.log('B: ', b)
-    response.status(201).json(b)
+    console.log('populatedBlog: ', populatedBlog.toJSON())
+    response.status(201).json(populatedBlog.toJSON())
   } catch(exception) {
     next(exception)
   }

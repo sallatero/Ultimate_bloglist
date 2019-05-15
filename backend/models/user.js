@@ -27,8 +27,16 @@ userSchema.set('toJSON', {
     delete returnedObj.__v
     //Suodatetaan passwordHash eli salasanan tiiviste pois näkyviltä
     delete returnedObj.passwordHash
+    /* BLOGS ON TAULUKKO Schema-viitteitä, ei voi käydä läpi kuten comments
+    if (returnedObj.blogs && returnedObj.blogs !== []) {
+      returnedObj.blogs.map(b => {
+        b.id = b._id.toString()
+        delete b._id
+      })
+    } */
   }
 })
+
 const User = mongoose.model('User', userSchema)
 
 module.exports = User

@@ -69,13 +69,13 @@ const remove = async (id, token) => {
 
 const create = async (newObj, token) => {
   try {
-    console.log('create kutsuttu. newobj: ', newObj)
+    console.log('BLOG SERVICE. newobj: ', newObj)
     const config = {
       headers: { Authorization: `bearer ${token}` },
     }
     //response.data on haluamamme blogiolio, jolla user-kentässä user-olio
     const response = await axios.post(baseUrl, newObj, config)
-    console.log('blogService response: ', response)
+    console.log('BLOG SERVICE response: ', response)
     return response.data
   }catch (error) {
     if (error.response) {

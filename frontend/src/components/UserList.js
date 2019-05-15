@@ -3,14 +3,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Container, Table } from 'semantic-ui-react'
 
-/*
-const UserListItem = ({ user }) => {
-  return (
-    <tr><td><Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td></tr>
-  )
-}
-*/
-
 const UserList = (props) => {
 
   const style = {
@@ -47,16 +39,6 @@ const UserList = (props) => {
     </Container>
   )
 }
-
-/*
- <table><tbody>
-        <tr><th></th><th>blogs created</th></tr>
-        {props.users.map(u =>
-          <UserListItem key={u.id} user={u} />
-        )}
-      </tbody></table>
-
-*/
 
 const mapStateToProps = (state) => {
   return {

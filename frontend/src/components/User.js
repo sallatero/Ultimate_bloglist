@@ -8,9 +8,6 @@ const User = ({ user }) => {
     return null
   }
 
-  //Tee samalla tavalla kuin PlogPage, eli
-  // horizontal viivat/otsikot
-  //Yhtenäistä otsikot koko appissa
   return (
     <Container text>
       <h2>{user.name}</h2>

@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 
@@ -36,6 +37,40 @@ usersRouter.post('/', async (req, res, next) => {
     const savedUser = await user.save()
     res.status(201).json(savedUser)
   } catch (exception) {
+    next(exception)
+  }
+})
+
+usersRouter.put('/:id', async (request, response, next) => {
+
+  try {
+    if (!request.token) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    const body = request.body
+    //user: _id, notes, username, name, blogs (array of id's), passwordHash, _v
+    const putThis = {
+      username: body.title,
+      name: body.author,
+      passwordHash: body.url,
+      blogs: body.likes
+    }
+    const oldVersion = await Blog.findById(request.params.id)
+    if (!oldVersion) {
+      return response.status(404).json({ error: 'blog does not exist' })
+    }
+    const newVersion = await Blog.findByIdAndUpdate(request.params.id, putThis, { new: true })
+    if (newVersion) {
+      response.status(204).json(newVersion.toJSON())
+    } else {
+      response.status(404).end()
+    }
+  } catch(exception) {
     next(exception)
   }
 })

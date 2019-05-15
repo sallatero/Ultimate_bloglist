@@ -18,6 +18,7 @@ export const initializeBlogs = () => {
 export const createBlog = (blog, token) => {
   return async dispatch => {
     const newBlog = await blogService.create(blog, token)
+    console.log('DISPATCHATAAN: ', newBlog)
     dispatch(setMessage(`New blog added '${blog.title}`, 5000))
     dispatch({
       type: 'NEW_BLOG',
@@ -110,6 +111,7 @@ const blogReducer = (state = [], action) => {
     return action.data
   }
   case 'NEW_BLOG' : {
+    console.log('BLOG REDUCER: ', action.data)
     const newState = state.concat(action.data)
     return newState
   }

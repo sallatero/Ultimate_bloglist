@@ -38,6 +38,7 @@ const blogsToShow = ({ blogs }) => {
 
 const mapStateToProps = (state) => {
   console.log(state)
+
   return {
     blogsToShow: blogsToShow(state)
   }

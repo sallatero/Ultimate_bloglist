@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { setMessage } from '../reducers/notificationReducer'
+//import { deleteBlogFromUser } from '../reducers/userlistReducer'
 import { withRouter } from 'react-router-dom'
 import CommentForm from './CommentForm'
 import { Divider, Header, Table, Button, List, ListContent, Icon, Container } from 'semantic-ui-react'
@@ -24,6 +25,10 @@ const BlogPage = (props) => {
   }
   const deleteBlog = (blog) => {
     props.deleteBlog(blog, props.loggedUser.token)
+    console.log('props.users: ', props.users)
+    const userObj = props.users.find(u => u.id === blog.user.id ? true : false)
+    console.log('userObj: ', userObj)
+    //props.deleteBlogFromUser(blog.id, userObj, props.loggedUser.token)
     props.history.push('/')
   }
 
@@ -97,27 +102,12 @@ const BlogPage = (props) => {
     </Container>
   )
 }
-/*
-<Button size='mini' floated='right' onClick={() => addLike(props.blog)}>like</Button>
-<Button size='mini' floated='right' onClick={() => deleteBlog(props.blog)}>delete</Button>
-<Button size='mini' floated='right' disabled>delete</Button>
 
-const blogDetails = () => {
-  return (
-
-  )
-}
-
-const blogComments = () => {
-  return (
-
-  )
-}
-*/
 const mapStateToProps = (state) => {
   //console.log(state)
   return {
-    loggedUser: state.loggedUser
+    loggedUser: state.loggedUser,
+    users: state.users
   }
 }
 
