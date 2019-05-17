@@ -48,7 +48,7 @@ const Togglable = React.forwardRef((props, ref) => {
       )
     } else if (props.buttonLabel === 'add blog') {
       return (
-        <Button icon labelPosition='left' onClick={toggleVisibility}>
+        <Button icon labelPosition='left' data-cy='add-blog' onClick={toggleVisibility}>
           <Icon name='add'/>Add blog</Button>
       )
     } else {

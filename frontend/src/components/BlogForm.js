@@ -47,21 +47,21 @@ const BlogForm = (props) => {
         <Form onSubmit={addBlog}>
           <FormField>
             <label>Title</label>
-            <input id='title' name='title' {...title} />
+            <input id='title' {...title} />
           </FormField>
           <FormField>
             <label>Author</label>
-            <input id='author' name='author' {...author} />
+            <input id='author' {...author} />
           </FormField>
           <FormField>
             <label>Url</label>
-            <input id='url' name='url' {...url} />
+            <input id='url' {...url} />
           </FormField>
           <FormField>
             <label>Likes</label>
-            <input id='likes' name='likes' {...likes} />
+            <input id='likes' {...likes} />
           </FormField>
-          <Button primary type="submit" icon labelPosition='left'>
+          <Button primary type="submit" data-cy='save-blog' icon labelPosition='left'>
             <Icon name='save'/>Save</Button>
 
           <Button type="reset" onClick={() => blogFormRef.current.toggleVisibility()}>

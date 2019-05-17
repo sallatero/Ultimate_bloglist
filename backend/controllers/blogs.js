@@ -56,20 +56,20 @@ blogsRouter.post('/', async (request, response, next) => {
 
     //Lisätään blog-id käyttäjän taulukkoon blogs
     user.blogs = user.blogs.concat(savedBlog._id)
-    //user.blogs.concat(savedBlog._id)
     console.log('käyttäjän blog-taulukko lisäyksen jälkeen?: ', user)
     //Talletetaan user kantaan
     const savedUser = await user.save()
-    console.log('savedUser. _id?: ', savedUser)
+    console.log('savedUser. _id?: ', savedUser) // _id
 
     //Tallennetaan user-olio (vain kentät username, name ja id) blogin kenttään user ja palautetaan se JSONina
     const u = savedUser.toJSON()
-    console.log('u: ', u)
+    console.log('u: ', u) // id 'ji9i9j9j'
     const b = savedBlog.toJSON()
-    console.log('b: ', b)
+    console.log('b: ', b) // id: '9i9i9i', user: 9i9i9i9i
     b.user = { username: u.username, name: u.name, id: u.id }
-    console.log('B: ', b)
+    console.log('B: ', b) // id: '9i9i9i', user: {username: string, name: string, id: string}
     console.log('palautetaan populatedBlog.toJSON: ', populatedBlog.toJSON())
+    //edelliset b === populatedBlog.toJSON
     response.status(201).json(populatedBlog.toJSON())
   } catch(exception) {
     next(exception)

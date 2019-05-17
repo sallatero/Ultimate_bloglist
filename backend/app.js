@@ -33,11 +33,15 @@ mongoose.connect(config.mongoUrl, { useNewUrlParser: true })
 
 app.use(tokenExtractor)
 
-//Otetaan blogsRouter käyttöön ja käytetään sitä vain jos polun alku on /api/blogs
+//Otetaan routerit käyttöön
 app.use('/api/blogs', blogsRouter)
-//Otetaan usersRouter käyttöön ja käytetään sitä vain jos polun alku on /api/users
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing')
+  app.use('/api/testing', testingRouter)
+}
 
 app.use(unknownEndpoint)
 app.use(errorHandler)

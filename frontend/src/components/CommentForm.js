@@ -31,7 +31,7 @@ const CommentForm = (props) => {
       <Form onSubmit={commentBlog}>
         <Form.Group>
           <Form.Input width='15' placeholder='leave a comment...' name='comment' {...comment} />
-          <Button icon labelPosition='left'>
+          <Button icon data-cy='comment' labelPosition='left'>
             <Icon name='comment'/>
           Comment</Button>
         </Form.Group>

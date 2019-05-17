@@ -60,7 +60,7 @@ const BlogPage = (props) => {
             <Table.Cell>
               {props.blog.likes} </Table.Cell>
             <Table.Cell>
-              <Button icon labelPosition='left' floated='right' onClick={() => addLike(props.blog)}>
+              <Button icon data-cy='like-blog' labelPosition='left' floated='right' onClick={() => addLike(props.blog)}>
                 <Icon name='like'/>
           Like</Button>
             </Table.Cell>
@@ -74,11 +74,11 @@ const BlogPage = (props) => {
             </Table.Cell>
             <Table.Cell>
               {deletable ?
-                <Button icon labelPosition='left' floated='right' onClick={() => deleteBlog(props.blog)}>
+                <Button icon data-cy='delete-blog' labelPosition='left' floated='right' onClick={() => deleteBlog(props.blog)}>
                   <Icon name='delete'/>
           Delete</Button>
                 :
-                <Button icon labelPosition='left' floated='right' disabled>
+                <Button icon data-cy='delete-blog' labelPosition='left' floated='right' disabled>
                   <Icon name='delete'/>
           Delete</Button>
               }

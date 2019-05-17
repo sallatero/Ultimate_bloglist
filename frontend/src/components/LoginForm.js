@@ -43,7 +43,7 @@ export const LoginForm = (props) => {
             <label>Password</label>
             <input id='password' {...password} />
           </Form.Field>
-          <Button type="submit" icon labelPosition='left'>
+          <Button type="submit" data-cy='login' icon labelPosition='left'>
             <Icon name='sign-in'/>Log in</Button>
         </Form>
       </Segment>
