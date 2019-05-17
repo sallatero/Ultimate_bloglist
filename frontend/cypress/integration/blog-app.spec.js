@@ -19,7 +19,7 @@ describe('Blog listing app', function() {
     cy.contains('Login here')
   })
 
-  describe.only('when logged in', function() {
+  describe('when logged in', function() {
     beforeEach(function() {
       cy.get('#username')
         .type('sallatero')
