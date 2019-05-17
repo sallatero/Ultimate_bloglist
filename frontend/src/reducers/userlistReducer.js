@@ -59,20 +59,23 @@ const userlistReducer = (state = [], action) => {
     return action.data
   }
   case 'NEW_BLOG': {
-    /* data {
-    id, likes, title, author, url, comments [],
-    user: {
-      username, name, id
-    }
-      */
-    //lisätään blogi käyttäjän alle
-    //action.data ei sisällä useria ollenkaan!!!
-    console.log('USER LIST REDUCER: ', action.data)
+    let newBlog = { ...action.data }
+    console.log('USER LIST REDUCER: ', newBlog)
     const newState = state.map(u => {
-      if (u.id === action.data.user.id) {
-        let blog = action.data
-        delete blog.user
-        const newBlogsArr = u.blogs.concat(blog)
+      if (u.id === newBlog.user.id) {
+        //delete newBlog.user
+        const newBlogsArr = u.blogs.concat(newBlog)
+        return { ...u, blogs: newBlogsArr }
+      }
+      return u
+    })
+    return newState
+  }
+  case 'DELETE_BLOG': {
+    let deletableBlog = { ...action.data }
+    const newState = state.map(u => {
+      if (u.id === deletableBlog.user.id) {
+        const newBlogsArr = u.blogs.filter(b => b.id !== deletableBlog.id)
         return { ...u, blogs: newBlogsArr }
       }
       return u

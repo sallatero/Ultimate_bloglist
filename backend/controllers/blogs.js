@@ -17,6 +17,7 @@ blogsRouter.post('/', async (request, response, next) => {
   //Luodaan uusi Schema-olio pyynnön perusteella
   let body = request.body
   body.comments = []
+  //tekee like-stringistä numeron, lisää _id:n ja comments: []
   const blog = new Blog(body)
   console.log('blogsRouter.postissa blog: ', blog)
 
@@ -35,25 +36,31 @@ blogsRouter.post('/', async (request, response, next) => {
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
-
-    //Haetaan käyttäjä kannasta
-    const user = await User.findById(decodedToken.id)
-    console.log('etsitään user: ', user) //username, name, id
-
-    // Lisätään blogiin user-id
+    console.log('decoded token: ', decodedToken)
+    //Haetaan blogin lisäävä käyttäjä kannasta
+    const user = await User.findById(decodedToken.id) //id: '234trwft8ru'
+    console.log('etsitään user: ', user) //username, name, _id, blogs []
+    //pitäiskö tässä välissä muotoilla id-kenttää??
+    // Lisätään blogin user-kenttään lisäävän käyttäjän id
     blog.user = user.id
-    console.log('blog with user-id: ', blog)
+
+    console.log('blog with user-id: ', blog) //blog.user: id: e3423rde8
     //Talletetaan blogi kantaan
     const savedBlog = await blog.save()
-    console.log('savedBlog: ', savedBlog) //savedBlog sisältää vain user-id:n
-
-    const populatedBlog = await Blog.findById(savedBlog.id).populate('user')
+    //savedBlog: _id j8j8u8, user: ou88y87y
+    console.log('savedBlog: ', savedBlog)
+    //savedBlogilla ei ole kenttää id, vain _id, toimii kuitenkin
+    const populatedBlog = await Blog.findById(savedBlog.id).populate('user', { username: 1, name: 1, id: 1 })
+    console.log('populated blog: ', populatedBlog)
+    //user: {_id, username, name}
 
     //Lisätään blog-id käyttäjän taulukkoon blogs
     user.blogs = user.blogs.concat(savedBlog._id)
+    //user.blogs.concat(savedBlog._id)
+    console.log('käyttäjän blog-taulukko lisäyksen jälkeen?: ', user)
     //Talletetaan user kantaan
     const savedUser = await user.save()
-    console.log('savedUser: ', savedUser)
+    console.log('savedUser. _id?: ', savedUser)
 
     //Tallennetaan user-olio (vain kentät username, name ja id) blogin kenttään user ja palautetaan se JSONina
     const u = savedUser.toJSON()
@@ -62,7 +69,7 @@ blogsRouter.post('/', async (request, response, next) => {
     console.log('b: ', b)
     b.user = { username: u.username, name: u.name, id: u.id }
     console.log('B: ', b)
-    console.log('populatedBlog: ', populatedBlog.toJSON())
+    console.log('palautetaan populatedBlog.toJSON: ', populatedBlog.toJSON())
     response.status(201).json(populatedBlog.toJSON())
   } catch(exception) {
     next(exception)

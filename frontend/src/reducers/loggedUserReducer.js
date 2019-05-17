@@ -1,6 +1,7 @@
 import loginService from '../services/login'
 import { setMessage } from './notificationReducer'
 
+//pitää tarkistaa onko token expired
 export const initializeUser = () => {
   return dispatch => {
     console.log('initializing logged in user')

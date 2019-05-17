@@ -18,11 +18,11 @@ export const initializeBlogs = () => {
 export const createBlog = (blog, token) => {
   return async dispatch => {
     const newBlog = await blogService.create(blog, token)
-    console.log('DISPATCHATAAN: ', newBlog)
+    console.log('DISPATCHATAAN: ', { ...newBlog })
     dispatch(setMessage(`New blog added '${blog.title}`, 5000))
     dispatch({
       type: 'NEW_BLOG',
-      data: newBlog
+      data: { ...newBlog }
     })
   }
 }
@@ -41,7 +41,7 @@ export const deleteBlog = (blog, token) => {
       dispatch(setMessage(`Blog ${blog.title} deleted`, 5000))
       dispatch({
         type: 'DELETE_BLOG',
-        data: { id: blog.id }
+        data: { ...blog }
       })
     }catch (exception) {
       console.log('EXCEPTION: poistaminen ei onnistunut, ', exception)
@@ -104,7 +104,6 @@ export const commentBlog = (id, commentObj, token) => {
 }
 
 const blogReducer = (state = [], action) => {
-  console.log('blogReducer: ', action.type, action.data)
 
   switch (action.type) {
   case 'INIT_BLOGS' : {
@@ -112,8 +111,13 @@ const blogReducer = (state = [], action) => {
   }
   case 'NEW_BLOG' : {
     console.log('BLOG REDUCER: ', action.data)
-    const newState = state.concat(action.data)
-    return newState
+    const newBlog = { ...action.data }
+    //console.log('newblog: ', newBlog)
+    //const newState = state.concat(newBlog)
+    //console.log('newState: ', newState)
+    //return newState
+    return state.concat(newBlog)
+    //return state.concat({ ...action.data })
   }
   case 'LIKE_BLOG' : {
     const newState = state.map(b => b.id === action.data.id ? action.data : b)
@@ -124,6 +128,7 @@ const blogReducer = (state = [], action) => {
     return newState
   }
   case 'DELETE_BLOG' : {
+    console.log('BLOG REDUCER Delete: ', action.data)
     const newState = state.filter(b => b.id !== action.data.id)
     return newState
   }
