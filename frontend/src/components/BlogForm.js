@@ -47,19 +47,19 @@ const BlogForm = (props) => {
         <Form onSubmit={addBlog}>
           <FormField>
             <label>Title</label>
-            <input name='title' {...title} />
+            <input id='title' name='title' {...title} />
           </FormField>
           <FormField>
             <label>Author</label>
-            <input name='author' {...author} />
+            <input id='author' name='author' {...author} />
           </FormField>
           <FormField>
             <label>Url</label>
-            <input name='url' {...url} />
+            <input id='url' name='url' {...url} />
           </FormField>
           <FormField>
             <label>Likes</label>
-            <input name='likes' {...likes} />
+            <input id='likes' name='likes' {...likes} />
           </FormField>
           <Button primary type="submit" icon labelPosition='left'>
             <Icon name='save'/>Save</Button>

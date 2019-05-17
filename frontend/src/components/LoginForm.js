@@ -37,11 +37,11 @@ export const LoginForm = (props) => {
         <Form onSubmit={handleLogin}>
           <Form.Field>
             <label>Username</label>
-            <input {...username} />
+            <input id='username' {...username} />
           </Form.Field>
           <Form.Field>
             <label>Password</label>
-            <input {...password} />
+            <input id='password' {...password} />
           </Form.Field>
           <Button type="submit" icon labelPosition='left'>
             <Icon name='sign-in'/>Log in</Button>
