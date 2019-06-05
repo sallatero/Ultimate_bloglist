@@ -20,9 +20,6 @@ const MenuComponent = (props) => {
     const blog = props.blogs.find(b => b.id === id)
     return blog
   }
-  /*
-size='mini' color='teal'
-*/
 
   return (
     <Container>

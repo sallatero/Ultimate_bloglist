@@ -1,19 +1,4 @@
-import loginService from '../services/login'
 import userService from '../services/users'
-import { setMessage } from '../reducers/notificationReducer'
-
-/* HALUTAANKO TEHDÄ TÄSTÄ TOIMINNALLISUUTTA? JOS LISÄÄ VAIN RESTILLÄ
-export const createUser = (username, name, password) => {
-  return async dispatch => {
-    const newUser = await userService.create(user)
-    dispatch(setMessage(`New user added '${user.username}`, 5000))
-    dispatch({
-      type: 'NEW_USER',
-      data: newUser
-    })
-  }
-}
-*/
 
 export const initializeUsers = () => {
   return async dispatch => {
@@ -35,7 +20,6 @@ const userlistReducer = (state = [], action) => {
     console.log('USER LIST REDUCER: ', newBlog)
     const newState = state.map(u => {
       if (u.id === newBlog.user.id) {
-        //delete newBlog.user
         const newBlogsArr = u.blogs.concat(newBlog)
         return { ...u, blogs: newBlogsArr }
       }

@@ -18,7 +18,6 @@ const CommentForm = (props) => {
       if (props.loggedUser) {
         const commentObj = { text: commentText }
         console.log('commentObj: ', commentObj)
-        //const newVersion = { ...props.blog, comments: props.blog.comments.concat(commentObj) }
         props.commentBlog(props.blog.id, commentObj, props.loggedUser.token)
       }
     } catch (exception) {

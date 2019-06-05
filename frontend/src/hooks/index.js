@@ -15,14 +15,4 @@ export const useField = (type) => {
     value,
     onChange
   }, reset]
-/*
-  return {
-    att: {
-      type,
-      value,
-      onChange
-    },
-    reset
-  }
-  */
 }

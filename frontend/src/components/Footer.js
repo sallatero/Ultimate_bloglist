@@ -1,14 +1,5 @@
 import React from 'react'
-import LoginForm from './LoginForm'
-import Info from './Info'
-import LogoutButton from './LogoutButton'
-import Home from './Home'
-import BlogPage from './BlogPage'
-import User from './User'
-import UserList from './UserList'
-import { connect } from 'react-redux'
-import { Container, Menu, Segment } from 'semantic-ui-react'
-import { BrowserRouter as Router, Route, withRouter, NavLink } from 'react-router-dom'
+import { Container, Segment } from 'semantic-ui-react'
 
 const Footer = (props) => {
 

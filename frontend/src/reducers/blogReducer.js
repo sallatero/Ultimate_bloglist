@@ -1,10 +1,6 @@
 import blogService from '../services/blogs'
 import { setMessage } from '../reducers/notificationReducer'
 
-/* STATE for blogs:
-data: array of blogs
-*/
-
 export const initializeBlogs = () => {
   return async dispatch => {
     const blogs = await blogService.getAll()
@@ -70,7 +66,6 @@ export const likeBlog = (blog, token) => {
         type: 'LIKE_BLOG',
         data: modifiedBlog
       })
-      //setBlogs(blogs.map(b => b.id !== id ? b : newVersion))
     }catch (exception) {
       console.log('EXCEPTION: likettäminen ei onnistunut, ', exception)
     }
@@ -96,7 +91,6 @@ export const commentBlog = (id, commentObj, token) => {
         type: 'COMMENT_BLOG',
         data: modifiedBlog
       })
-      //setBlogs(blogs.map(b => b.id !== id ? b : newVersion))
     }catch (exception) {
       console.log('EXCEPTION: kommentointi ei onnistunut, ', exception)
     }
@@ -113,11 +107,7 @@ const blogReducer = (state = [], action) => {
     console.log('BLOG REDUCER: ', action.data)
     const newBlog = { ...action.data }
     //console.log('newblog: ', newBlog)
-    //const newState = state.concat(newBlog)
-    //console.log('newState: ', newState)
-    //return newState
     return state.concat(newBlog)
-    //return state.concat({ ...action.data })
   }
   case 'LIKE_BLOG' : {
     const newState = state.map(b => b.id === action.data.id ? action.data : b)

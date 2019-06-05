@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, fireEvent } from 'react-testing-library'
-import { prettyDOM, findAllByTestId } from 'dom-testing-library'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
@@ -22,18 +21,16 @@ describe('<Blog />', () => {
     )
   })
 
-  test('trying out thigs', () => {
+  test('trying out things', () => {
     //component.debug()
     //console.log(prettyDOM(button))
   })
 
   test('at start only title and author are displayed', () => {
     const toShow = component.container.querySelector('.defaultBlogView')
-    //console.log(prettyDOM(toShow))
     expect(toShow).toBeDefined()
 
     const notToShow = component.container.querySelector('.showAllBlogView')
-    //console.log(prettyDOM(notToShow))
     expect(notToShow).toHaveStyle('display: none')
   })
 
@@ -44,7 +41,6 @@ describe('<Blog />', () => {
 
     const all = component.container.querySelector('.showAllBlogView')
 
-    //console.log(prettyDOM(all))
     expect(all).not.toHaveStyle('display: none')
 
   })

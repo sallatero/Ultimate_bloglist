@@ -1,9 +1,8 @@
 import React from 'react'
-import { render, waitForElement, act } from 'react-testing-library'
+import { render, waitForElement } from 'react-testing-library'
 jest.mock('../services/blogs') //Siirrä testsetupiin
 import App from '../App'
 import { fireEvent } from 'react-testing-library/dist'
-import { prettyDOM } from 'dom-testing-library'
 
 describe('<App />', () => {
   test('renders only login form, when user is not logged in', async () => {

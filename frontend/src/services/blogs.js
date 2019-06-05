@@ -18,7 +18,6 @@ const addComment = async (id, commentObj, token) => {
   } catch (error) {
     console.log('error: ', error)
     if (error.response) {
-      //errorTitle: "expired token", statusCode: 401
       if (error.response.status === 401) {
         return error.response.status
       }
@@ -39,11 +38,8 @@ const update = async (id, newVersion, token) => {
     if (error.response) {
       //errorTitle: "expired token", statusCode: 401
       if (error.response.status === 401) {
-        //console.log('blogService: token nullattu')
-        //token = null
         return error.response.status
       }
-      //return { errorTitle: error.response.data.error, statusCode: error.response.status }
     }
   }
 }

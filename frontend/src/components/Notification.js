@@ -14,10 +14,6 @@ const Notification = (props) => {
   }
 
   return (
-    /*
-    <div style={style}>
-      {props.notification}
-    </div> */
     <div>
       {props.notification === '' || props.notification === null ?
         <div/>

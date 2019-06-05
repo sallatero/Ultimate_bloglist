@@ -12,7 +12,7 @@ const LogoutButton = (props) => {
     try {
       props.logoutUser()
     } catch(exception) {
-      props.setMessage('uloskirjaus ei onnistunut')
+      props.setMessage('Logout unsuccessful')
     }
   }
 

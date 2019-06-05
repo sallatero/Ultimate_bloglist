@@ -53,7 +53,6 @@ usersRouter.put('/:id', async (request, response, next) => {
     }
 
     const body = request.body
-    //user: _id, notes, username, name, blogs (array of id's), passwordHash, _v
     const putThis = {
       username: body.title,
       name: body.author,

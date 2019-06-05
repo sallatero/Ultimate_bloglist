@@ -2,14 +2,6 @@ import React, { useState, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Container, Icon } from 'semantic-ui-react'
 
-/*
-Komponentin Togglable luova funktio on kääritty funktiokutsun forwardRef sisälle.
-Näin lapsikomponentti (esim. Appin BlogForm) pääsee käsiksi tähän Togglable-komponenttiin.
-
-Togglable käyttää useImperativeHandle-hookia tarjotakseen sisäistä funktiotaan
-toggleVisibility ulkopuolelta kutsuttavaksi.
-*/
-
 const Togglable = React.forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
 
@@ -33,13 +25,6 @@ const Togglable = React.forwardRef((props, ref) => {
     buttonLabel: PropTypes.string.isRequired
   }
 
-  /*
-  Eka div (hideWhenVisible) on sellainen nappula, joka tuo esiin sen 'masterin'.
-  Nappula on piilossa kun sen 'master' on näkyvillä
-
-  Toinen div (showWhenVisible) on edellisen master, sen yhteydessä on nappula,
-  jolla master voidaan piilottaa
-  */
   const myButton = () => {
     if (props.buttonLabel === 'login') {
       return (
